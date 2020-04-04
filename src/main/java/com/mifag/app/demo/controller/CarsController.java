@@ -4,36 +4,34 @@ import com.mifag.app.demo.dto.CarDataDto;
 import com.mifag.app.demo.dto.TableThreeDto;
 import com.mifag.app.demo.entity.Cars;
 import com.mifag.app.demo.repository.CarsRepository;
+import com.mifag.app.demo.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/table/cars")
 public class CarsController {
+    private final CarService carSer;
+
     private final CarsRepository repcars;
 
     @Autowired
-    public CarsController(CarsRepository carstypes) {
+    public CarsController(CarsRepository carstypes, CarService carServ) {
         this.repcars = carstypes;
+        this.carSer = carServ;
     }
+
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/getCarsRecords")
     public ResponseEntity<List<Cars>> getCars() {
-
-        Iterable<Cars> records = repcars.findAll();
-        List<Cars> returnValue = new ArrayList<>();
-        for (Cars record : records) {
-            returnValue.add(record);
-
-        }
+        List<Cars> returnValue = carSer.getAllCars();
         return ResponseEntity.ok(returnValue);
-
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/getCarsId")
@@ -97,4 +95,11 @@ public class CarsController {
 
     }
 
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE, path ="/body/{carId}")
+    public ResponseEntity<HttpStatus> delCar(@PathVariable(value = "carId") Long carIdDelete) {
+        repcars.deleteById(carIdDelete);
+
+        return ResponseEntity.ok(HttpStatus.NO_CONTENT);
+
+    }
 }
