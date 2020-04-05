@@ -7,6 +7,18 @@ public class TableThreeDto {
     private Integer speedCar;
     private Integer powerCar;
 
+    public TableThreeDto() {
+
+    }
+
+    public TableThreeDto(Long a, String b, String c, Integer d, Integer e) {
+        this.idCars = a;
+        this.typeCar = b;
+        this.modelCar = c;
+        this.speedCar = d;
+        this.powerCar = e;
+    }
+
     public Long getIdCars() {
         return idCars;
     }
