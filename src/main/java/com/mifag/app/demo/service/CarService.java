@@ -5,7 +5,6 @@ import com.mifag.app.demo.dto.TableThreeDto;
 import com.mifag.app.demo.entity.Cars;
 import com.mifag.app.demo.repository.CarsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -75,4 +74,20 @@ public class CarService {
         //Метод addCar возвращает данные о добавленной записи в таблицу cars (объект carto).
     }
 
+    public Cars replaceCar(CarDataDto sgt, Long carId) {
+        Optional<Cars> updCar = repcars.findById(carId);
+        if (updCar.isPresent()) {
+            Cars detcars = updCar.get();
+            detcars.setType(sgt.getTyC());
+            detcars.setModel(sgt.getMoC());
+            detcars.setSpeed(sgt.getSpC());
+            detcars.setPower(sgt.getPoC());
+            repcars.save(detcars);
+            return detcars;
+        }
+        return null;
+    }
+    public void deleteCar(Long del) {
+        repcars.deleteById(del);
+    }
 }

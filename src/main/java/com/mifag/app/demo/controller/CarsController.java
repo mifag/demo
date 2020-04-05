@@ -3,7 +3,6 @@ package com.mifag.app.demo.controller;
 import com.mifag.app.demo.dto.CarDataDto;
 import com.mifag.app.demo.dto.TableThreeDto;
 import com.mifag.app.demo.entity.Cars;
-import com.mifag.app.demo.repository.CarsRepository;
 import com.mifag.app.demo.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,18 +11,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/table/cars")
 public class CarsController {
 
     private final CarService carSer;
-    private final CarsRepository repcars;
 
     @Autowired
-    public CarsController(CarsRepository carstypes, CarService carServ) {
-        this.repcars = carstypes;
+    public CarsController(CarService carServ) {
         this.carSer = carServ;
     }
 
@@ -59,30 +55,15 @@ public class CarsController {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, path ="/body/{carId}")
-    public ResponseEntity<Cars> update (@RequestBody CarDataDto sgt,
-                                              @PathVariable(value = "carId") Long carIdToUpdate) {
-
-        Optional<Cars> updCar = repcars.findById(carIdToUpdate);
-        if (updCar.isPresent()) {
-            Cars detcars = updCar.get();
-            detcars.setType(sgt.getTyC());
-            detcars.setModel(sgt.getMoC());
-            detcars.setSpeed(sgt.getSpC());
-            detcars.setPower(sgt.getPoC());
-            repcars.save(detcars);
-
-            return ResponseEntity.ok(detcars);
-        }
-        Cars nonCars = null;
-        return ResponseEntity.ok(nonCars);
-
+    public ResponseEntity<Cars> update(@RequestBody CarDataDto spq,
+                                       @PathVariable(value = "carId") Long carUpdate) {
+        Cars pkk = carSer.replaceCar(spq, carUpdate);
+        return ResponseEntity.ok(pkk);
     }
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE, path ="/body/{carId}")
     public ResponseEntity<HttpStatus> delCar(@PathVariable(value = "carId") Long carIdDelete) {
-        repcars.deleteById(carIdDelete);
-
+        carSer.deleteCar(carIdDelete);
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
-
     }
 }
