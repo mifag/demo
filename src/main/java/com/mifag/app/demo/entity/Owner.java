@@ -1,5 +1,7 @@
 package com.mifag.app.demo.entity;
 
+import com.mifag.app.demo.dto.OwnerDto;
+import com.mifag.app.demo.enums.SexEnum;
 import com.mifag.app.demo.enums.SkillLevelEnum;
 
 import javax.persistence.Column;
@@ -26,8 +28,9 @@ public class Owner {
     @Column(name = "name")
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "sex")
-    private String sex;
+    private SexEnum sex;
 
     @Column(name = "age")
     private Integer age;
@@ -38,6 +41,18 @@ public class Owner {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
     private List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps;
+
+    public Owner() {
+
+    }
+
+    public Owner(OwnerDto ownerDto) {
+        this.id = ownerDto.getId();
+        this.name = ownerDto.getName();
+        this.sex = ownerDto.getSex();
+        this.age = ownerDto.getAge();
+        this.skillLevel = ownerDto.getSkillLevel();
+    }
 
     public Long getId() {
         return id;
@@ -55,11 +70,11 @@ public class Owner {
         this.name = name;
     }
 
-    public String getSex() {
+    public SexEnum getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(SexEnum sex) {
         this.sex = sex;
     }
 

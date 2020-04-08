@@ -1,12 +1,24 @@
 package com.mifag.app.demo.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class MidiKeyboardDto {
 
     private Long id;
+
+    @NotNull
     private String manufacturer;
+
+    @NotNull
     private String model;
+
+    @NotNull
     private Integer keysNumber;
+
+    @NotNull
     private Boolean hasMidiOut;
+
+    @NotNull
     private Long price;
 
     public MidiKeyboardDto() {

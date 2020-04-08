@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,8 @@ public class MidiKeyboardController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MidiKeyboardDto> createMidiKeyboard(@RequestBody MidiKeyboardDto midiKeyboardReceived) {
+    public ResponseEntity<MidiKeyboardDto> createMidiKeyboard(
+            @RequestBody @Valid MidiKeyboardDto midiKeyboardReceived) {
         MidiKeyboardDto createdKeyboard = midiService.createMidi(midiKeyboardReceived);
         return ResponseEntity.ok(createdKeyboard);
     }
@@ -47,8 +49,8 @@ public class MidiKeyboardController {
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{midiId}")
-    public ResponseEntity<MidiKeyboardDto> updateMidiKeyboard(@RequestBody MidiKeyboardDto midiBody,
-                                                               @PathVariable(value = "midiId") Long updateMidiId) {
+    public ResponseEntity<MidiKeyboardDto> updateMidiKeyboard(@RequestBody @Valid MidiKeyboardDto midiBody,
+                                                              @PathVariable(value = "midiId") Long updateMidiId) {
         MidiKeyboardDto updatedMidiKeyboard = midiService.updateMidiKeyboard(midiBody, updateMidiId);
         return ResponseEntity.ok(updatedMidiKeyboard);
     }
