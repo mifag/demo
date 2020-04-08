@@ -10,5 +10,4 @@ import org.springframework.stereotype.Repository;
 public interface TableOneRepository extends CrudRepository<TableOne, Long> {
     @Query("SELECT t FROM TableOne t WHERE t.id = :ass AND t.name = :piss")
     TableOne getMeTableOneYouFuck(@Param("ass") Long qqq, @Param("piss") String www);
-
 }

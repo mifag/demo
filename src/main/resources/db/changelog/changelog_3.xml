@@ -1,0 +1,72 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="1" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="owner"/>
+            </not>
+        </preConditions>
+        <createTable tableName="owner">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="pk_owner"/>
+            </column>
+            <column name="name" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sex" type="varchar(64)">
+                <constraints nullable="false" />
+            </column>
+            <column name="age" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skill_level" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="owner_midi_keyboard_map"/>
+            </not>
+        </preConditions>
+        <createTable tableName="owner_midi_keyboard_map">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="pk_owner_midi_keyboard_map"/>
+            </column>
+            <column name="owner_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+            <column name="midi_keyboard_id" type="bigserial">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_owner_midi_keyboard_map_owner"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="owner_midi_keyboard_map" baseColumnNames="owner_id"
+                                 constraintName="fk_owner_midi_keyboard_map_owner"
+                                 referencedTableName="owner"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="4" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_owner_midi_keyboard_map_midi_keyboard"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="owner_midi_keyboard_map" baseColumnNames="midi_keyboard_id"
+                                 constraintName="fk_owner_midi_keyboard_midi_keyboard"
+                                 referencedTableName="midi_keyboard"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

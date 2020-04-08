@@ -1,0 +1,61 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="4" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="midi_keyboard"/>
+            </not>
+        </preConditions>
+        <comment>
+            Create new table with name "midi_keyboard"
+        </comment>
+        <createTable tableName="midi_keyboard">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="pk_midi_keyboard"/>
+            </column>
+            <column name="manufacturer" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model" type="varchar(64)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="keys_number" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="has midi_out" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="5" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="midi_keyboard" columnName="has midi_out"/>
+        </preConditions>
+        <comment>
+            This changeset rename column "has midi_out" of table "midi_keyboard"
+        </comment>
+        <renameColumn tableName="midi_keyboard" oldColumnName="has midi_out" newColumnName="has_midi_out"
+                      columnDataType="boolean"/>
+    </changeSet>
+
+    <changeSet id="6" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="midi_keyboard" columnName="price"/>
+            <not>
+                <indexExists indexName="midi_keyboard_price_idx"/>
+            </not>
+        </preConditions>
+        <comment>
+            This changeset create index "midi_keyboard_price_idx"
+        </comment>
+        <createIndex tableName="midi_keyboard" indexName="midi_keyboard_price_idx">
+            <column name="price" type="bigserial"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
