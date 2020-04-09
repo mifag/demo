@@ -1,6 +1,7 @@
 package com.mifag.app.demo.controller;
 
 import com.mifag.app.demo.dto.MidiKeyboardDto;
+import com.mifag.app.demo.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.demo.service.MidiKeyboardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -78,9 +79,9 @@ public class MidiKeyboardController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/filterByModel")
-    public ResponseEntity<List<MidiKeyboardDto>> filterByModel(
-            @RequestParam(value = "name") String model) {
-        List<MidiKeyboardDto> foundByModel = midiService.findByModel(model);
+    public ResponseEntity<MidiKeyboardDto> filterByModel(
+            @RequestParam(value = "name") String model) throws MidiKeyboardNotFoundException {
+        MidiKeyboardDto foundByModel = midiService.findByModel(model);
         return ResponseEntity.ok(foundByModel);
     }
 

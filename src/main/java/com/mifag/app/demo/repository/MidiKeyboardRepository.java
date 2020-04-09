@@ -25,7 +25,7 @@ public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Lon
                                                  @Param("equals") Integer equals);
 
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.model = :model")
-    List<MidiKeyboard> getByModel(@Param("model") String model);
+    MidiKeyboard getByModel(@Param("model") String model);
 
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.price = :costKey")
     List<MidiKeyboard> getByPrice(@Param("costKey") Long costKey);

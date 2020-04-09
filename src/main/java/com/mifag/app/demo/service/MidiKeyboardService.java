@@ -2,6 +2,7 @@ package com.mifag.app.demo.service;
 
 import com.mifag.app.demo.dto.MidiKeyboardDto;
 import com.mifag.app.demo.entity.MidiKeyboard;
+import com.mifag.app.demo.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.demo.repository.MidiKeyboardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,18 +23,28 @@ public class MidiKeyboardService {
     }
 
     public MidiKeyboardDto createMidi(MidiKeyboardDto midiData) {
-        MidiKeyboard midiToCreate = new MidiKeyboard();
-        midiToCreate.setManufacturer(midiData.getManufacturer());
-        midiToCreate.setModel(midiData.getModel());
-        midiToCreate.setKeysNumber(midiData.getKeysNumber());
-        midiToCreate.setHasMidiOut(midiData.getHasMidiOut());
-        midiToCreate.setPrice(midiData.getPrice());
+        try {
+            return findByModel(midiData.getModel());
+        } catch (MidiKeyboardNotFoundException e) {
+            MidiKeyboard midiToCreate = new MidiKeyboard();
+            midiToCreate.setManufacturer(midiData.getManufacturer());
+            midiToCreate.setModel(midiData.getModel());
+            midiToCreate.setKeysNumber(midiData.getKeysNumber());
+            midiToCreate.setHasMidiOut(midiData.getHasMidiOut());
+            midiToCreate.setPrice(midiData.getPrice());
 
-        MidiKeyboard createdKeyboard = midiKeyboardRepository.save(midiToCreate);
+            MidiKeyboard createdKeyboard = midiKeyboardRepository.save(midiToCreate);
 
-        return new MidiKeyboardDto(createdKeyboard.getId(),
-                createdKeyboard.getManufacturer(), createdKeyboard.getModel(), createdKeyboard.getKeysNumber(),
-                createdKeyboard.getHasMidiOut(), createdKeyboard.getPrice());
+            return new MidiKeyboardDto(createdKeyboard.getId(),
+                    createdKeyboard.getManufacturer(), createdKeyboard.getModel(), createdKeyboard.getKeysNumber(),
+                    createdKeyboard.getHasMidiOut(), createdKeyboard.getPrice());
+        }
+        //найти midiKeyboard по модели.
+        //если её нет, то создать новую.
+        //если она есть, то
+        //проверить, есть ли записи с такой model,если есть,вернуть существующую.
+        //если нет, создать новую и вернуть созданную.
+
     }
 
     public MidiKeyboardDto getMidiById(Long midiIdToFindBy) {
@@ -131,16 +142,14 @@ public class MidiKeyboardService {
         return foundByKeys;
     }
 
-    public List<MidiKeyboardDto> findByModel(String model) {
-        List<MidiKeyboardDto> foundByModel = new ArrayList<>();
-        List<MidiKeyboard> midiKeyboardList = midiKeyboardRepository.getByModel(model);
-        for (MidiKeyboard foundRecord : midiKeyboardList) {
-            MidiKeyboardDto recordsByModel = new MidiKeyboardDto(foundRecord.getId(),
+    public MidiKeyboardDto findByModel(String model) throws MidiKeyboardNotFoundException {
+        MidiKeyboard foundRecord = midiKeyboardRepository.getByModel(model);
+        if (foundRecord != null) {
+            return new MidiKeyboardDto(foundRecord.getId(),
                     foundRecord.getManufacturer(), foundRecord.getModel(), foundRecord.getKeysNumber(),
                     foundRecord.getHasMidiOut(), foundRecord.getPrice());
-            foundByModel.add(recordsByModel);
         }
-        return foundByModel;
+        throw new MidiKeyboardNotFoundException(model);
     }
 
     public List<MidiKeyboardDto> findByPrice(Integer cost) {
@@ -185,5 +194,13 @@ public class MidiKeyboardService {
             foundByPartOfManufacturer.add(recordsByPartOfManufacturer);
         }
         return foundByPartOfManufacturer;
+    }
+
+    public MidiKeyboard getMidiKeyboardById(Long keyId) throws MidiKeyboardNotFoundException {
+        Optional<MidiKeyboard> midiKeyboard = midiKeyboardRepository.findById(keyId);
+        if (midiKeyboard.isPresent()) {
+            return midiKeyboard.get();
+        }
+        throw new MidiKeyboardNotFoundException(keyId);
     }
 }
