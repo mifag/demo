@@ -10,7 +10,6 @@ import com.mifag.app.demo.exception.OwnerNotFoundException;
 import com.mifag.app.demo.repository.OwnerMidiKeyboardMapRepository;
 import com.mifag.app.demo.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -56,27 +55,54 @@ public class OwnerService {
     }
 
     public OwnerDto getOwnerById(Long ownerId) throws OwnerNotFoundException {
-        return new OwnerDto(findOwnerById(ownerId));
+        Owner owner = findOwnerById(ownerId);
+        OwnerDto ownerDto = new OwnerDto(owner);
+        List<MidiKeyboardDto> midiKeyboardDtoList = new ArrayList<>();
+        for (OwnerMidiKeyboardMap ownerMidiKeyboardMap : owner.getOwnerMidiKeyboardMaps()) {
+            MidiKeyboard midiKeyboard = ownerMidiKeyboardMap.getMidiKeyboard();
+            MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(midiKeyboard);
+            midiKeyboardDtoList.add(midiKeyboardDto);
+        }
+        ownerDto.setMidiKeyboardList(midiKeyboardDtoList);
+        return ownerDto;
     }
 
     public List<OwnerDto> getAllOwnerRecords() {
         Iterable<Owner> allRecords = ownerRepository.findAll();
         List<OwnerDto> ownerRecords = new ArrayList<>();
         for (Owner record : allRecords) {
+            List<MidiKeyboardDto> midiKeyboardDtos = new ArrayList<>();
+            for (OwnerMidiKeyboardMap ownerMidiKeyboardMap : record.getOwnerMidiKeyboardMaps()){
+                MidiKeyboard midiKeyboard = ownerMidiKeyboardMap.getMidiKeyboard();
+                MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(midiKeyboard);
+                midiKeyboardDtos.add(midiKeyboardDto);
+            }
             OwnerDto foundOwners = new OwnerDto(record);
+            foundOwners.setMidiKeyboardList(midiKeyboardDtos);
             ownerRecords.add(foundOwners);
         }
         return ownerRecords;
     }
 
-    public OwnerDto updateOwner(OwnerDto bodyOwner, Long ownerId) throws OwnerNotFoundException {
+    public OwnerDto updateOwner(OwnerDto bodyOwner, Long ownerId) throws OwnerNotFoundException,
+            MidiKeyboardNotFoundException {
         Owner replaceOwner = findOwnerById(ownerId);
         replaceOwner.setName(bodyOwner.getName());
         replaceOwner.setSex(bodyOwner.getSex());
         replaceOwner.setAge(bodyOwner.getAge());
         replaceOwner.setSkillLevel(bodyOwner.getSkillLevel());
         Owner ownerUp = ownerRepository.save(replaceOwner);
-        return new OwnerDto(ownerUp);
+        List<MidiKeyboardDto> midiKeyboardDtos = bodyOwner.getMidiKeyboardList();
+        List<MidiKeyboardDto> midiKeyboardDtoList = new ArrayList<>();
+
+        for (MidiKeyboardDto midiKeyboardDto : midiKeyboardDtos) {
+            Long midiId = midiKeyboardDto.getId();
+            MidiKeyboardDto midiKeyboardDto1 = midiKeyboardService.updateMidiKeyboard(midiKeyboardDto, midiId);
+            midiKeyboardDtoList.add(midiKeyboardDto1);
+        }
+        OwnerDto ownerDto = new OwnerDto(ownerUp);
+        ownerDto.setMidiKeyboardList(midiKeyboardDtoList);
+        return ownerDto;
     }
 
     private Owner findOwnerById(Long ownerId) throws OwnerNotFoundException {
@@ -91,7 +117,14 @@ public class OwnerService {
         List<OwnerDto> foundByOwner = new ArrayList<>();
         List<Owner> ownerList = ownerRepository.getByOwnerName(ownerName);
         for (Owner foundRecord : ownerList) {
+            List<MidiKeyboardDto> midiKeyboardDtoList= new ArrayList<>();
+            for (OwnerMidiKeyboardMap keyboardMap : foundRecord.getOwnerMidiKeyboardMaps()) {
+                MidiKeyboard midiKeyboard = keyboardMap.getMidiKeyboard();
+                MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(midiKeyboard);
+                midiKeyboardDtoList.add(midiKeyboardDto);
+            }
             OwnerDto recordsByOwner = new OwnerDto(foundRecord);
+            recordsByOwner.setMidiKeyboardList(midiKeyboardDtoList);
             foundByOwner.add(recordsByOwner);
         }
         return foundByOwner;
@@ -102,8 +135,6 @@ public class OwnerService {
     }
 }
 
-
-// midiKeyboardService зарефакторить методы getById и updateMidiKeyboard используя метод getMidiKeyboardById.
-// добавить таблицу specification в которой будет содержаться техинформация о midikeyboard.
-// прокинуть связь между таблицой specification и midiKeyboard oneToOne. дополнить все api в midikeyboardKontroller
-// информацией из таблицы specification.
+//доработать все api по получению owner(owners) добавив в них инфу о midiKeyboard *
+//зарефакторить createMidi на конструкторы. **
+//добавить во все getApi midiKeyboardController инфу о specification.

@@ -38,7 +38,8 @@ public class MidiKeyboardController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/getById")
-    public ResponseEntity<MidiKeyboardDto> getMidiKeyboardById(@RequestParam(value = "id") Long midiId) {
+    public ResponseEntity<MidiKeyboardDto> getMidiKeyboardById(@RequestParam(value = "id") Long midiId)
+            throws MidiKeyboardNotFoundException {
         MidiKeyboardDto receivedMidiKeyboard = midiService.getMidiById(midiId);
         return ResponseEntity.ok(receivedMidiKeyboard);
     }
@@ -51,7 +52,8 @@ public class MidiKeyboardController {
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{midiId}")
     public ResponseEntity<MidiKeyboardDto> updateMidiKeyboard(@RequestBody @Valid MidiKeyboardDto midiBody,
-                                                              @PathVariable(value = "midiId") Long updateMidiId) {
+                                                              @PathVariable(value = "midiId") Long updateMidiId)
+            throws MidiKeyboardNotFoundException {
         MidiKeyboardDto updatedMidiKeyboard = midiService.updateMidiKeyboard(midiBody, updateMidiId);
         return ResponseEntity.ok(updatedMidiKeyboard);
     }
@@ -106,7 +108,4 @@ public class MidiKeyboardController {
         return ResponseEntity.ok(foundByPartOfManufacturer);
     }
 }
-// 1Сделать поиск по каждому из параметров.*
-// 2Сделать поиск по комбинации параметров minKeys+equalsKeys *
-// 3Сделать поиск по комбинации параметров maxKeys+equalsKeys *
-// 4Почитать про синтаксис операторов if, for, else, else-if, логическое "и", логическое "или"
+

@@ -52,7 +52,7 @@ public class OwnerController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/ownerById")
     public ResponseEntity<OwnerDto> getOwnerById(@RequestParam(value = "id") Long idOwner)
-            throws OwnerNotFoundException {
+            throws OwnerNotFoundException, MidiKeyboardNotFoundException {
         LOG.info("Мы вошли в метод getOwnerById. Получаем данные пользователя с id {}", idOwner);
         OwnerDto receivedOwner = ownerService.getOwnerById(idOwner);
         LOG.info("Пользователь с id {} успешно найден. Имя пользователя в базе данных: {}", idOwner,
@@ -71,9 +71,9 @@ public class OwnerController {
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{ownerId}")
     public ResponseEntity<OwnerDto> updateOwner(@RequestBody @Valid OwnerDto owner,
                                                 @PathVariable(value = "ownerId") Long ownerId)
-            throws OwnerNotFoundException {
+            throws OwnerNotFoundException, MidiKeyboardNotFoundException {
         LOG.info("Мы вошли в метод updateOwner. Заменяем данные пользователя с id: {} на данные нового пользователя " +
-                " c именем {}", ownerId, owner.getName());
+               " c именем {}", ownerId, owner.getName());
         OwnerDto updatedOwner = ownerService.updateOwner(owner, ownerId);
         LOG.info("Пользователь с id {} успешно изменен. Имя в базе данных: {}", updatedOwner.getId(),
                 updatedOwner.getName());
@@ -97,5 +97,3 @@ public class OwnerController {
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 }
-
-// сделать все api (Все записи, одну запись по id, записи по имени, редактирование, удаление) + логи(вход-выход)

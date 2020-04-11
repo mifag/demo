@@ -39,7 +39,7 @@ public class Owner {
     @Column(name = "skill_level")
     private SkillLevelEnum skillLevel;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     private List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps;
 
     public Owner() {

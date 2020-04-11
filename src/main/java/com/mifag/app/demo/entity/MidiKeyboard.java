@@ -1,12 +1,16 @@
 package com.mifag.app.demo.entity;
 
+import com.mifag.app.demo.dto.MidiKeyboardDto;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -33,8 +37,27 @@ public class MidiKeyboard {
     @Column(name = "price")
     private Long price;
 
+    @OneToOne
+    @JoinColumn(name = "specificationId", insertable = false, updatable = false)
+    private Specification specification;
+
+    private Long specificationId;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
     private List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps;
+
+    public MidiKeyboard () {
+
+    }
+
+    public MidiKeyboard (MidiKeyboardDto midiKeyboardDto) {
+        this.id = midiKeyboardDto.getId();
+        this.manufacturer = midiKeyboardDto.getManufacturer();
+        this.model = midiKeyboardDto.getModel();
+        this.keysNumber = midiKeyboardDto.getKeysNumber();
+        this.hasMidiOut = midiKeyboardDto.getHasMidiOut();
+        this.price = midiKeyboardDto.getPrice();
+    }
 
     public Long getId() {
         return id;
@@ -90,5 +113,21 @@ public class MidiKeyboard {
 
     public void setOwnerMidiKeyboardMaps(List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps) {
         this.ownerMidiKeyboardMaps = ownerMidiKeyboardMaps;
+    }
+
+    public Specification getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(Specification specification) {
+        this.specification = specification;
+    }
+
+    public Long getSpecificationId() {
+        return specificationId;
+    }
+
+    public void setSpecificationId(Long specificationId) {
+        this.specificationId = specificationId;
     }
 }

@@ -69,4 +69,47 @@
                                  referencedTableName="midi_keyboard"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+    <changeSet id="5" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="specification"/>
+            </not>
+        </preConditions>
+        <createTable tableName="specification">
+            <column name="id" autoIncrement="true" type="bigserial">
+                <constraints primaryKey="true" primaryKeyName="pk_specification"/>
+            </column>
+            <column name="weight" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="length" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="width" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="velocity" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type_of_key" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6" author="mifag">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="midi_keyboard" columnName="specification_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="midi_keyboard">
+            <column name="specification_id" type="bigserial">
+                <constraints foreignKeyName="fk_specification_midi_keyboard" referencedTableName="specification"
+                referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

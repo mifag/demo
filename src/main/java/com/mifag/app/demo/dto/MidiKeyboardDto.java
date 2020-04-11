@@ -1,5 +1,7 @@
 package com.mifag.app.demo.dto;
 
+import com.mifag.app.demo.entity.MidiKeyboard;
+
 import javax.validation.constraints.NotNull;
 
 public class MidiKeyboardDto {
@@ -21,8 +23,19 @@ public class MidiKeyboardDto {
     @NotNull
     private Long price;
 
+    private SpecificationDto specification;
+
     public MidiKeyboardDto() {
 
+    }
+
+    public MidiKeyboardDto(MidiKeyboard midiKeyboard) {
+        this.id = midiKeyboard.getId();
+        this.manufacturer = midiKeyboard.getManufacturer();
+        this.model = midiKeyboard.getModel();
+        this.keysNumber = midiKeyboard.getKeysNumber();
+        this.hasMidiOut = midiKeyboard.getHasMidiOut();
+        this.price = midiKeyboard.getPrice();
     }
 
     public MidiKeyboardDto(Long a, String b, String c, Integer d, Boolean e, Long f) {
@@ -80,5 +93,13 @@ public class MidiKeyboardDto {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public SpecificationDto getSpecification() {
+        return specification;
+    }
+
+    public void setSpecification(SpecificationDto specification) {
+        this.specification = specification;
     }
 }
