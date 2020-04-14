@@ -1,4 +1,4 @@
-package com.mifag.app.demo.service;
+package com.mifag.app.demo.oldClasses;
 
 import org.springframework.stereotype.Component;
 

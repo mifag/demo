@@ -1,9 +1,5 @@
-package com.mifag.app.demo.service;
+package com.mifag.app.demo.oldClasses;
 
-import com.mifag.app.demo.dto.CarDataDto;
-import com.mifag.app.demo.dto.TableThreeDto;
-import com.mifag.app.demo.entity.Cars;
-import com.mifag.app.demo.repository.CarsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;

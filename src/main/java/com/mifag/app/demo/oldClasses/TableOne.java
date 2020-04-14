@@ -1,4 +1,4 @@
-package com.mifag.app.demo.entity;
+package com.mifag.app.demo.oldClasses;
 
 import javax.persistence.*;
 
@@ -38,3 +38,12 @@ public class TableOne {
         this.age = age;
     }
 }
+
+  // public MidiKeyboardDto(Long a, String b, String c, Integer d, Boolean e, Long f) {
+//     this.id = a;
+//     this.manufacturer = b;
+//     this.model = c;
+//     this.keysNumber = d;
+//     this.hasMidiOut = e;
+//     this.price = f;
+// }

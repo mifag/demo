@@ -11,13 +11,16 @@ import com.mifag.app.demo.repository.OwnerMidiKeyboardMapRepository;
 import com.mifag.app.demo.repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Сервис для обращения в репозиторий владельцев.
+ */
 @Component
 public class OwnerService {
+
     private final OwnerRepository ownerRepository;
     private final MidiKeyboardService midiKeyboardService;
     private final OwnerMidiKeyboardMapRepository ownerMidiKeyboardMapRepository;
@@ -30,15 +33,18 @@ public class OwnerService {
         this.ownerMidiKeyboardMapRepository = ownerMidiKeyboardMapRepository;
     }
 
+    /**
+     * Создание нового владельца в базе данных.
+     * @param ownerData - данные нового владельца.
+     * @return созданный владелец.
+     * @throws MidiKeyboardNotFoundException отправляется на клиент в случае отсутствия данных миди-клавитуры.
+     */
     public OwnerDto createOwner(OwnerDto ownerData) throws MidiKeyboardNotFoundException {
         Owner ownerToCreate = new Owner(ownerData);
         Owner createdOwner = ownerRepository.save(ownerToCreate);
-        //получить List<midiKeyboardDto> из ownerData
         List<MidiKeyboardDto> midiKeyboardDtoList = ownerData.getMidiKeyboardList();
         List<MidiKeyboardDto> ownerKeyboard = new ArrayList<>();
-        //вытащить записи midiKeyboardDto из List<>
         for (MidiKeyboardDto midiKeyboardDto : midiKeyboardDtoList) {
-            //обратиться в midiKeyboardService и передать туда по одной записи midiKeyboardDto
             MidiKeyboardDto idDto = midiKeyboardService.createMidi(midiKeyboardDto);
             ownerKeyboard.add(idDto);
             Long midiKeyboardId = idDto.getId();
@@ -48,12 +54,17 @@ public class OwnerService {
             ownerMidiKeyboardMap.setMidiKeyboard(midiKeyboard);
             ownerMidiKeyboardMapRepository.save(ownerMidiKeyboardMap);
         }
-        //добавить связи между midiKeyboard и owner в таблицу midiKeyboardOwnerMap.
         OwnerDto returnData = new OwnerDto(createdOwner);
         returnData.setMidiKeyboardList(ownerKeyboard);
         return returnData;
     }
 
+    /**
+     * Поиск владельца по id.
+     * @param ownerId - запрошенный id.
+     * @return данные владельца в типе OwnerDto с запрошенным id.
+     * @throws OwnerNotFoundException отправляется в контроллер в случае отсутствия владельца по данному id.
+     */
     public OwnerDto getOwnerById(Long ownerId) throws OwnerNotFoundException {
         Owner owner = findOwnerById(ownerId);
         OwnerDto ownerDto = new OwnerDto(owner);
@@ -67,6 +78,10 @@ public class OwnerService {
         return ownerDto;
     }
 
+    /**
+     * Поиск всех владельцев в базе данных.
+     * @return список найденных владельцев.
+     */
     public List<OwnerDto> getAllOwnerRecords() {
         Iterable<Owner> allRecords = ownerRepository.findAll();
         List<OwnerDto> ownerRecords = new ArrayList<>();
@@ -84,6 +99,14 @@ public class OwnerService {
         return ownerRecords;
     }
 
+    /**
+     * Замена записи в базе данных о владельце с запрошенным id.
+     * @param bodyOwner - данные нового владельца.
+     * @param ownerId -id заменяемого владельца.
+     * @return данные из базы данных нового владельца.
+     * @throws OwnerNotFoundException отправляется в контроллер в случае отсутствия владельца с данным id.
+     * @throws MidiKeyboardNotFoundException отправляется в контроллер в случае отсутствия данных миди-клавиатуры.
+     */
     public OwnerDto updateOwner(OwnerDto bodyOwner, Long ownerId) throws OwnerNotFoundException,
             MidiKeyboardNotFoundException {
         Owner replaceOwner = findOwnerById(ownerId);
@@ -94,7 +117,6 @@ public class OwnerService {
         Owner ownerUp = ownerRepository.save(replaceOwner);
         List<MidiKeyboardDto> midiKeyboardDtos = bodyOwner.getMidiKeyboardList();
         List<MidiKeyboardDto> midiKeyboardDtoList = new ArrayList<>();
-
         for (MidiKeyboardDto midiKeyboardDto : midiKeyboardDtos) {
             Long midiId = midiKeyboardDto.getId();
             MidiKeyboardDto midiKeyboardDto1 = midiKeyboardService.updateMidiKeyboard(midiKeyboardDto, midiId);
@@ -105,6 +127,12 @@ public class OwnerService {
         return ownerDto;
     }
 
+    /**
+     * Поиск в базе данных владельца по id.
+     * @param ownerId - id владельца.
+     * @return entity найденного владельца.
+     * @throws OwnerNotFoundException отправляется в контроллер в случае отсутствия владельца с данным id.
+     */
     private Owner findOwnerById(Long ownerId) throws OwnerNotFoundException {
         Optional<Owner> ownerById = ownerRepository.findById(ownerId);
         if (ownerById.isPresent()) {
@@ -113,6 +141,11 @@ public class OwnerService {
         throw new OwnerNotFoundException(ownerId);
     }
 
+    /**
+     * Поиск в базе данных владельцев по имени.
+     * @param ownerName - имя владельца.
+     * @return список найденных владельцев.
+     */
     public List<OwnerDto> findByOwnerName(String ownerName) {
         List<OwnerDto> foundByOwner = new ArrayList<>();
         List<Owner> ownerList = ownerRepository.getByOwnerName(ownerName);
@@ -130,11 +163,11 @@ public class OwnerService {
         return foundByOwner;
     }
 
+    /**
+     * Удаление владельца из базы данных.
+     * @param ownerId - id удаляемого владельца.
+     */
     public void deleteOwner(Long ownerId) {
         ownerRepository.deleteById(ownerId);
     }
 }
-
-//доработать все api по получению owner(owners) добавив в них инфу о midiKeyboard *
-//зарефакторить createMidi на конструкторы. **
-//добавить во все getApi midiKeyboardController инфу о specification.

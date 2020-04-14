@@ -2,9 +2,11 @@ package com.mifag.app.demo.dto;
 
 import com.mifag.app.demo.entity.Specification;
 import com.mifag.app.demo.enums.TypeOfKeyEnum;
-
 import javax.validation.constraints.NotNull;
 
+/**
+ * Объект для отправки на клиент.
+ */
 public class SpecificationDto {
     private Long id;
 
@@ -27,6 +29,10 @@ public class SpecificationDto {
 
     }
 
+    /**
+     *  Установка параметров из Specification в SpecificationDto.
+     * @param specification .
+     */
     public SpecificationDto(Specification specification) {
         this.id = specification.getId();
         this.weight = specification.getWeight();

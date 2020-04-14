@@ -1,7 +1,6 @@
 package com.mifag.app.demo.entity;
 
 import com.mifag.app.demo.dto.MidiKeyboardDto;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +13,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
 
+/**
+ * Entity миди-клавиатуры.
+ */
 @Entity
 @Table(name = "midi_keyboard")
 public class MidiKeyboard {
@@ -46,10 +48,17 @@ public class MidiKeyboard {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
     private List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps;
 
+    /**
+     * Пустой конструктор.
+     */
     public MidiKeyboard () {
 
     }
 
+    /**
+     * Коструктор. Установка параметров из MidiKeyboardDto в MidiKeyboard.
+     * @param midiKeyboardDto .
+     */
     public MidiKeyboard (MidiKeyboardDto midiKeyboardDto) {
         this.id = midiKeyboardDto.getId();
         this.manufacturer = midiKeyboardDto.getManufacturer();

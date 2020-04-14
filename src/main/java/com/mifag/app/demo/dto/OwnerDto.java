@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mifag.app.demo.entity.Owner;
 import com.mifag.app.demo.enums.SexEnum;
 import com.mifag.app.demo.enums.SkillLevelEnum;
-
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+/**
+ * Объект для отправки на клиент.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OwnerDto {
 
@@ -31,6 +33,10 @@ public class OwnerDto {
 
     }
 
+    /**
+     * Установка параметров из Owner в OwnerDto.
+     * @param owner - entity.
+     */
     public OwnerDto(Owner owner) {
         this.id = owner.getId();
         this.name = owner.getName();

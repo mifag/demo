@@ -1,9 +1,9 @@
-package com.mifag.app.demo.controller;
+package com.mifag.app.demo.oldClasses;
 
-import com.mifag.app.demo.dto.CarDataDto;
-import com.mifag.app.demo.dto.TableThreeDto;
-import com.mifag.app.demo.entity.Cars;
-import com.mifag.app.demo.service.CarService;
+import com.mifag.app.demo.oldClasses.CarDataDto;
+import com.mifag.app.demo.oldClasses.TableThreeDto;
+import com.mifag.app.demo.oldClasses.Cars;
+import com.mifag.app.demo.oldClasses.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

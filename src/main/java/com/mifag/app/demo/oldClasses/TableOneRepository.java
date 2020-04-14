@@ -1,6 +1,6 @@
-package com.mifag.app.demo.repository;
+package com.mifag.app.demo.oldClasses;
 
-import com.mifag.app.demo.entity.TableOne;
+import com.mifag.app.demo.oldClasses.TableOne;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

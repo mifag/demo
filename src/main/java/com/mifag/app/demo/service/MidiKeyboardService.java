@@ -8,13 +8,14 @@ import com.mifag.app.demo.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.demo.repository.MidiKeyboardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * Сервис для обращения в репозиторий миди-клавиатур.
+ */
 @Component
 public class MidiKeyboardService {
 
@@ -29,6 +30,11 @@ public class MidiKeyboardService {
         this.specificationService = specificationService;
     }
 
+    /**
+     * Создание новой мидиклавиатуры в базе данных.
+     * @param midiData - параметры новой клавиатуры.
+     * @return  данные из базы данных о новой миди-клавиатуре.
+     */
     public MidiKeyboardDto createMidi(MidiKeyboardDto midiData) {
         try {
             return findByModel(midiData.getModel());
@@ -38,80 +44,62 @@ public class MidiKeyboardService {
                 isSpecsPresent = true;
             }
             MidiKeyboard midiToCreate = new MidiKeyboard(midiData);
-
-            //midiToCreate.setManufacturer(midiData.getManufacturer());
-            //midiToCreate.setModel(midiData.getModel());
-            //midiToCreate.setKeysNumber(midiData.getKeysNumber());
-            //midiToCreate.setHasMidiOut(midiData.getHasMidiOut());
-            //midiToCreate.setPrice(midiData.getPrice());
-
-            //извлечь SpecificationDto из midiData
-            //передать данные из SpecificationDto в Specification
-            //установить данные из Specification в Midikeyboard
-            //сохранить данные в репозиторий и вернуть их
-            //записть SpecificationDto в midiDto и вернуть в метод createMidi
             if (isSpecsPresent) {
-                //SpecificationDto specDto = midiData.getSpecification();
-                //Specification spec = new Specification(specDto);
-
-                //spec.setWeight(specDto.getWeight());
-                //spec.setLength(specDto.getLength());
-                //spec.setWidth(specDto.getWidth());
-                //spec.setVelocity(specDto.getVelocity());
-                //spec.setTypeOfKey(specDto.getTypeOfKey());
-
                 Specification specification = specificationService.saveSpecification(
                         new Specification(midiData.getSpecification()));
                 midiToCreate.setSpecification(specification);
                 midiToCreate.setSpecificationId(specification.getId());
             }
-            //midiToCreate.setSpecification
             MidiKeyboard createdKeyboard = midiKeyboardRepository.save(midiToCreate);
             MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(createdKeyboard);
-
-            //.getId(),
-             //       createdKeyboard.getManufacturer(), createdKeyboard.getModel(), createdKeyboard.getKeysNumber(),
-              //      createdKeyboard.getHasMidiOut(), createdKeyboard.getPrice()
-            //вытащить specification из createdKeyboard
-            //передать из specification B specificationDto
-            //вернуть в keyboardDto
             if (isSpecsPresent) {
-                //Specification specification = createdKeyboard.getSpecification();
-                //SpecificationDto specificationDto = new SpecificationDto(specification);
-                //specificationDto.setId(specification.getId());
-                //specificationDto.setWeight(specification.getWeight());
-                //specificationDto.setLength(specification.getLength());
-                //specificationDto.setWidth(specification.getWidth());
-                //specificationDto.setVelocity(specification.getVelocity());
-                //specificationDto.setTypeOfKey(specification.getTypeOfKey());
                 midiKeyboardDto.setSpecification(new SpecificationDto(createdKeyboard.getSpecification()));
             }
             return midiKeyboardDto;
         }
-        //найти midiKeyboard по модели.
-        //если её нет, то создать новую.
-        //если она есть, то
-        //проверить, есть ли записи с такой model,если есть,вернуть существующую.
-        //если нет, создать новую и вернуть созданную.
-
     }
 
+    /**
+     * Поиск миди-клавиатуры по id.
+     * @param midiIdToFindBy id миди-клавиатуры.
+     * @return найденная мидиклавиатура в типе MidiKeyboardDto.
+     * @throws MidiKeyboardNotFoundException отправляется в контроллер в случае отсутствия объекта с данным id.
+     */
     public MidiKeyboardDto getMidiById(Long midiIdToFindBy) throws MidiKeyboardNotFoundException {
-        return new MidiKeyboardDto(getMidiKeyboardById(midiIdToFindBy));
+        Specification specification = getMidiKeyboardById(midiIdToFindBy).getSpecification();
+        MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(getMidiKeyboardById(midiIdToFindBy));
+        if (specification != null) {
+            midiKeyboardDto.setSpecification(new SpecificationDto(specification));
+        }
+        return midiKeyboardDto;
     }
 
+    /**
+     * Поиск всех миди-клавиатур в базе данных.
+     * @return список найденных клавиатур.
+     */
     public List<MidiKeyboardDto> getAllMidiRecords() {
         Iterable<MidiKeyboard> allRecords = midiKeyboardRepository.findAll();
         List<MidiKeyboardDto> midiRecords = new ArrayList<>();
         for (MidiKeyboard record : allRecords) {
+            Long specId = record.getSpecificationId();
             MidiKeyboardDto midiDto = new MidiKeyboardDto(record);
-            //.getId(), record.getManufacturer(), record.getModel(),
-            //        record.getKeysNumber(), record.getHasMidiOut(), record.getPrice()
+            if (specId != null) {
+                Specification specification = record.getSpecification();
+                midiDto.setSpecification(new SpecificationDto(specification));
+            }
             midiRecords.add(midiDto);
         }
         return midiRecords;
     }
 
+    /**
+     * Замена записи о миди-клавиатуре с запрошенным id в базе данных.
+     * @param midiBoard - параметры новой миди-клавиатуры.
+     * @param midiBoardId id заменяемой миди-клавиатуры.
+     * @return данные новой миди-клавиатуры типа MidiKeyboardDto.
+     * @throws MidiKeyboardNotFoundException отправляется в контроллер в случае отсутствия объекта с данным id.
+     */
     public MidiKeyboardDto updateMidiKeyboard(MidiKeyboardDto midiBoard, Long midiBoardId)
             throws MidiKeyboardNotFoundException {
         MidiKeyboard midiKeyboard = getMidiKeyboardById(midiBoardId);
@@ -124,36 +112,40 @@ public class MidiKeyboardService {
         return new MidiKeyboardDto(replacedMidiKeyboard);
     }
 
-   // Optional<MidiKeyboard> replaceMidiBoard = midiKeyboardRepository.findById(midiBoardId);
-     //   if (replaceMidiBoard.isPresent()) {
-       // MidiKeyboard boardToUpdate = replaceMidiBoard.get();
-      //  boardToUpdate.setManufacturer(midiBoard.getManufacturer());
-      //  boardToUpdate.setModel(midiBoard.getModel());
-      //  boardToUpdate.setKeysNumber(midiBoard.getKeysNumber());
-      //  boardToUpdate.setHasMidiOut(midiBoard.getHasMidiOut());
-      //  boardToUpdate.setPrice(midiBoard.getPrice());
-       // MidiKeyboard key = midiKeyboardRepository.save(boardToUpdate);
-     //  return new MidiKeyboardDto(key);
-   // }
-     //   return null;
-
+    /**
+     * Удаление миди-клавиатуры из базы данных по заданному id.
+     * @param deleteId - id удаляемой клавиатуры.
+     */
     public void deleteMidi(Long deleteId) {
         midiKeyboardRepository.deleteById(deleteId);
     }
 
+    /**
+     * Поиск в базе данных клавиатур по производителю.
+     * @param manufacturerName .
+     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     */
     public List<MidiKeyboardDto> findByManufacturer(String manufacturerName) {
         List<MidiKeyboardDto> foundByManufacturer = new ArrayList<>();
         List<MidiKeyboard> midiKeyboardList = midiKeyboardRepository.getByManufacturerName(manufacturerName);
         for (MidiKeyboard foundRecord : midiKeyboardList) {
             MidiKeyboardDto recordsByManufacturer = new MidiKeyboardDto(foundRecord);
-        //    .getId(),
-        //            foundRecord.getManufacturer(), foundRecord.getModel(), foundRecord.getKeysNumber(),
-        //            foundRecord.getHasMidiOut(), foundRecord.getPrice()
+            Long specId = foundRecord.getSpecificationId();
+            if (specId != null) {
+                recordsByManufacturer.setSpecification(new SpecificationDto(foundRecord.getSpecification()));
+            }
             foundByManufacturer.add(recordsByManufacturer);
         }
         return foundByManufacturer;
     }
 
+    /**
+     * Поиск в базе данных клавиатуры по количеству клавиш.
+     * @param minKeys - минимальное количество клавиш.
+     * @param maxKeys - максимальное количество клавиш.
+     * @param equalsKeys - заданное количество клавиш.
+     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     */
     public List<MidiKeyboardDto> findByKeys(Long minKeys, Long maxKeys, Long equalsKeys) {
         Integer minKey;
         if (minKeys != null) {
@@ -177,6 +169,9 @@ public class MidiKeyboardService {
         List<MidiKeyboard> midiKeyboardList;
         List<MidiKeyboardDto> foundByKeys = new ArrayList<>();
 
+        /*
+         * Условия выролнения поиска, если ни одно условие не выполняется - возвращается пустой лист.
+         */
         if (Objects.nonNull(minKey) && Objects.nonNull(maxKey)) {
             midiKeyboardList = midiKeyboardRepository.getByMinKeysAndMaxKeys(minKey, maxKey);
         } else if (Objects.nonNull(minKey) && Objects.nonNull(equalsKey)) {
@@ -187,25 +182,45 @@ public class MidiKeyboardService {
            midiKeyboardList = new ArrayList<>();
         }
 
+        /*
+         * Если есть спецификация, в MidiKeyboardDto добавляется еще и она.
+         */
         for (MidiKeyboard record : midiKeyboardList) {
-           // MidiKeyboardDto midiDto = new MidiKeyboardDto(record.getId(), record.getManufacturer(),
-           //         record.getModel(), record.getKeysNumber(), record.getHasMidiOut(), record.getPrice());
-            foundByKeys.add(new MidiKeyboardDto(record));
+            Long specId = record.getSpecificationId();
+            MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(record);
+            if (specId != null) {
+                Specification specification = record.getSpecification();
+                midiKeyboardDto.setSpecification(new SpecificationDto(specification));
+            }
+            foundByKeys.add(midiKeyboardDto);
         }
         return foundByKeys;
     }
 
+    /**
+     * Поиск в базе данных клавиатур по модели.
+     * @param model .
+     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     * @throws MidiKeyboardNotFoundException  отправляется в контроллер в случае отсутствия объекта данной модели.
+     */
     public MidiKeyboardDto findByModel(String model) throws MidiKeyboardNotFoundException {
         MidiKeyboard foundRecord = midiKeyboardRepository.getByModel(model);
         if (foundRecord != null) {
-            return new MidiKeyboardDto(foundRecord);
-           // .getId(),
-           //         foundRecord.getManufacturer(), foundRecord.getModel(), foundRecord.getKeysNumber(),
-           //         foundRecord.getHasMidiOut(), foundRecord.getPrice()
+            MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(foundRecord);
+            Long specificationId = foundRecord.getSpecificationId();
+            if (specificationId != null) {
+                midiKeyboardDto.setSpecification(new SpecificationDto(foundRecord.getSpecification()));
+            }
+            return midiKeyboardDto;
         }
         throw new MidiKeyboardNotFoundException(model);
     }
 
+    /**
+     * Поиск в базе данных клавиатур по цене.
+     * @param cost .
+     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     */
     public List<MidiKeyboardDto> findByPrice(Integer cost) {
         Long costKey;
         try {
@@ -219,40 +234,59 @@ public class MidiKeyboardService {
 
         for (MidiKeyboard foundRecord : midiKeyboardList) {
             MidiKeyboardDto recordsByPrice = new MidiKeyboardDto(foundRecord);
-         //   .getId(),
-         //           foundRecord.getManufacturer(), foundRecord.getModel(), foundRecord.getKeysNumber(),
-         //           foundRecord.getHasMidiOut(), foundRecord.getPrice()
+            Long specId = foundRecord.getSpecificationId();
+            if (specId != null) {
+                recordsByPrice.setSpecification(new SpecificationDto(foundRecord.getSpecification()));
+            }
             foundByPrice.add(recordsByPrice);
         }
         return foundByPrice;
     }
 
+    /**
+     * Поиск в базе данных клавиатур по наличию миди-выхода.
+     * @param midiOut .
+     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     */
     public List<MidiKeyboardDto> findByMidiOut(Boolean midiOut) {
         List<MidiKeyboard> midiKeyboardList = midiKeyboardRepository.getByMidiOut(midiOut);
         List<MidiKeyboardDto> foundByMidiOut = new ArrayList<>();
         for (MidiKeyboard foundRecord : midiKeyboardList) {
             MidiKeyboardDto recordsByMidiOut = new MidiKeyboardDto(foundRecord);
-        //    .getId(),
-        //            foundRecord.getManufacturer(), foundRecord.getModel(), foundRecord.getKeysNumber(),
-        //            foundRecord.getHasMidiOut(), foundRecord.getPrice()
+            Long specId = foundRecord.getSpecificationId();
+            if (specId != null) {
+                recordsByMidiOut.setSpecification(new SpecificationDto(foundRecord.getSpecification()));
+            }
             foundByMidiOut.add(recordsByMidiOut);
         }
         return foundByMidiOut;
     }
 
+    /**
+     * Поиск в базе данных клавиатур по части имени производителя.
+     * @param part .
+     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     */
     public List<MidiKeyboardDto> findByPartOfManufacturer(String part) {
         List<MidiKeyboard> midiKeyboardList = midiKeyboardRepository.getByPartOfManufacturer(part);
         List<MidiKeyboardDto> foundByPartOfManufacturer = new ArrayList<>();
         for (MidiKeyboard foundRecord : midiKeyboardList) {
             MidiKeyboardDto recordsByPartOfManufacturer = new MidiKeyboardDto(foundRecord);
-         //   .getId(),
-         //           foundRecord.getManufacturer(), foundRecord.getModel(), foundRecord.getKeysNumber(),
-         //           foundRecord.getHasMidiOut(), foundRecord.getPrice()
+            Long specsId = foundRecord.getSpecificationId();
+            if (specsId != null) {
+                recordsByPartOfManufacturer.setSpecification(new SpecificationDto(foundRecord.getSpecification()));
+            }
             foundByPartOfManufacturer.add(recordsByPartOfManufacturer);
         }
         return foundByPartOfManufacturer;
     }
 
+    /**
+     * Поиск в базе данных клавиатуры по id.
+     * @param keyId .
+     * @return найденная мидиклавиатура в базе данных.
+     * @throws MidiKeyboardNotFoundException отправляется в контроллер в случае отсутствия объекта с данным id.
+     */
     public MidiKeyboard getMidiKeyboardById(Long keyId) throws MidiKeyboardNotFoundException {
         Optional<MidiKeyboard> midiKeyboard = midiKeyboardRepository.findById(keyId);
         if (midiKeyboard.isPresent()) {

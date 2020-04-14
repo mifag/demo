@@ -8,6 +8,10 @@ public class OwnerNotFoundException extends Exception {
 
     private static final long serialVersionUID = 9182137595163235718L;
 
+    /**
+     * Ошибка, связанная с отсутствием владельца с таким id
+     * @param ownerId
+     */
     public OwnerNotFoundException(Long ownerId) {
         super("Owner with id " + ownerId + " not found.");
     }

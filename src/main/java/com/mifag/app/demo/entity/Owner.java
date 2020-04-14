@@ -3,7 +3,6 @@ package com.mifag.app.demo.entity;
 import com.mifag.app.demo.dto.OwnerDto;
 import com.mifag.app.demo.enums.SexEnum;
 import com.mifag.app.demo.enums.SkillLevelEnum;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,7 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 
-
+/**
+ * Entity владельца.
+ */
 @Entity
 @Table(name = "owner")
 public class Owner {
@@ -42,10 +43,17 @@ public class Owner {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     private List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps;
 
+    /**
+     * Пустой конструктор
+     */
     public Owner() {
 
     }
 
+    /**
+     * Конструктор. Установка параметров из OwnerDto в Owner
+     * @param ownerDto
+     */
     public Owner(OwnerDto ownerDto) {
         this.id = ownerDto.getId();
         this.name = ownerDto.getName();

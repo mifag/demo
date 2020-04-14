@@ -1,4 +1,4 @@
-package com.mifag.app.demo.entity;
+package com.mifag.app.demo.oldClasses;
 
 import javax.persistence.*;
 

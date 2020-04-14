@@ -1,6 +1,5 @@
 package com.mifag.app.demo.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Entity таблицы связей владельцев и миди-клавиатур.
+ */
 @Entity
 @Table(name = "owner_midi_keyboard_map")
 public class OwnerMidiKeyboardMap {

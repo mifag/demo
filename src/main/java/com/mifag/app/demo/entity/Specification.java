@@ -2,7 +2,6 @@ package com.mifag.app.demo.entity;
 
 import com.mifag.app.demo.dto.SpecificationDto;
 import com.mifag.app.demo.enums.TypeOfKeyEnum;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * Entity спецификации миди-клавиатуры.
+ */
 @Entity
 @Table(name = "specification")
 public class Specification {
@@ -41,6 +43,17 @@ public class Specification {
     @OneToOne(mappedBy = "specification", cascade = CascadeType.ALL)
     private MidiKeyboard midiKeyboard;
 
+    /**
+     * Пустой конструктор.
+     */
+    public Specification() {
+
+    }
+
+    /**
+     * Установка параметров из SpecificationDto в Specification.
+     * @param specificationDto .
+     */
     public Specification (SpecificationDto specificationDto) {
         this.id = specificationDto.getId();
         this.weight = specificationDto.getWeight();

@@ -5,6 +5,9 @@ import com.mifag.app.demo.repository.SpecificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Сервис для обращения в репозиторий спецификаций.
+ */
 @Component
 public class SpecificationService {
 

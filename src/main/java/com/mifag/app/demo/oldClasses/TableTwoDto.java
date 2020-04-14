@@ -1,4 +1,4 @@
-package com.mifag.app.demo.dto;
+package com.mifag.app.demo.oldClasses;
 
 public class TableTwoDto {
     private Long idOfTable;

@@ -1,11 +1,5 @@
-package com.mifag.app.demo.controller;
+package com.mifag.app.demo.oldClasses;
 
-import com.mifag.app.demo.dto.BtrDto;
-import com.mifag.app.demo.dto.Cat;
-import com.mifag.app.demo.dto.TableOneDto;
-import com.mifag.app.demo.entity.TableOne;
-import com.mifag.app.demo.repository.TableOneRepository;
-import com.mifag.app.demo.service.ServiceForFirstTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

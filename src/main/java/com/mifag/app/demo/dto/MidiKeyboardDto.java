@@ -1,9 +1,11 @@
 package com.mifag.app.demo.dto;
 
 import com.mifag.app.demo.entity.MidiKeyboard;
-
 import javax.validation.constraints.NotNull;
 
+/**
+ * Объект для отправки на клиент.
+ */
 public class MidiKeyboardDto {
 
     private Long id;
@@ -29,6 +31,10 @@ public class MidiKeyboardDto {
 
     }
 
+    /**
+     * Установка параметров из MidiKeyboard в MidiKeyboardDto.
+     * @param midiKeyboard .
+     */
     public MidiKeyboardDto(MidiKeyboard midiKeyboard) {
         this.id = midiKeyboard.getId();
         this.manufacturer = midiKeyboard.getManufacturer();
@@ -36,15 +42,6 @@ public class MidiKeyboardDto {
         this.keysNumber = midiKeyboard.getKeysNumber();
         this.hasMidiOut = midiKeyboard.getHasMidiOut();
         this.price = midiKeyboard.getPrice();
-    }
-
-    public MidiKeyboardDto(Long a, String b, String c, Integer d, Boolean e, Long f) {
-        this.id = a;
-        this.manufacturer = b;
-        this.model = c;
-        this.keysNumber = d;
-        this.hasMidiOut = e;
-        this.price = f;
     }
 
     public Long getId() {
