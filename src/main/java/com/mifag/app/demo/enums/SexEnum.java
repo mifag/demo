@@ -1,7 +1,7 @@
 package com.mifag.app.demo.enums;
 
 /**
- * Перечисление вариантов пола у Owner.
+ * Owner gender enum.
  */
 public enum  SexEnum {
     MALE,

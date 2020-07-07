@@ -4,7 +4,7 @@ import com.mifag.app.demo.entity.MidiKeyboard;
 import javax.validation.constraints.NotNull;
 
 /**
- * Объект для отправки на клиент.
+ * Midi keyboard dto.
  */
 public class MidiKeyboardDto {
 
@@ -27,13 +27,16 @@ public class MidiKeyboardDto {
 
     private SpecificationDto specification;
 
+    /**
+     * Empty constructor.
+     */
     public MidiKeyboardDto() {
 
     }
 
     /**
-     * Установка параметров из MidiKeyboard в MidiKeyboardDto.
-     * @param midiKeyboard .
+     * Constructor.
+     * @param midiKeyboard - entity.
      */
     public MidiKeyboardDto(MidiKeyboard midiKeyboard) {
         this.id = midiKeyboard.getId();

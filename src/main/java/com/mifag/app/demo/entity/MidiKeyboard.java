@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 /**
- * Entity миди-клавиатуры.
+ * Midi Keyboard entity.
  */
 @Entity
 @Table(name = "midi_keyboard")
@@ -49,14 +49,14 @@ public class MidiKeyboard {
     private List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps;
 
     /**
-     * Пустой конструктор.
+     * Empty constructor.
      */
     public MidiKeyboard () {
 
     }
 
     /**
-     * Коструктор. Установка параметров из MidiKeyboardDto в MidiKeyboard.
+     * Constructor.
      * @param midiKeyboardDto .
      */
     public MidiKeyboard (MidiKeyboardDto midiKeyboardDto) {

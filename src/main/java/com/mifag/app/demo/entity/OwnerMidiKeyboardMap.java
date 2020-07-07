@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Entity таблицы связей владельцев и миди-клавиатур.
+ * Entity, link table of midi keyboards and owners.
  */
 @Entity
 @Table(name = "owner_midi_keyboard_map")

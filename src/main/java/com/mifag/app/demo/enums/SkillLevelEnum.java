@@ -1,7 +1,7 @@
 package com.mifag.app.demo.enums;
 
 /**
- * Перечисление вариантов скила у Owner.
+ * Skill level enum.
  */
 public enum SkillLevelEnum {
     PIONEER,

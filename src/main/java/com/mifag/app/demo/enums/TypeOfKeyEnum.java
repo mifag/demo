@@ -1,7 +1,7 @@
 package com.mifag.app.demo.enums;
 
 /**
- * Перечисление вариантов типа клавиатуры.
+ * Type of key enum.
  */
 public enum TypeOfKeyEnum {
     HAMMER_ACTION,

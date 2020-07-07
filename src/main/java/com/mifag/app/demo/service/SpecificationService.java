@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Сервис для обращения в репозиторий спецификаций.
+ * Specification service.
  */
 @Component
 public class SpecificationService {

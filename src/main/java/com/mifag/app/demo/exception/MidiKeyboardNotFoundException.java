@@ -9,16 +9,16 @@ public class MidiKeyboardNotFoundException extends Exception {
     private static final long serialVersionUID = -4505069750864670040L;
 
     /**
-     * Ошибка, связанная с отсутствием клавиатуры с таким значением model
-     * @param model
+     * Exeption, if midi keyboard with specific model not found.
+     * @param model .
      */
     public MidiKeyboardNotFoundException(String model) {
         super("MidiKeyboard with model " + model + " not found.");
     }
 
     /**
-     * Ошибка, связанная с отсутствием клавиатуры с таким id
-     * @param id
+     * Exeption, if midi keyboard with specific id not found.
+     * @param id .
      */
     public MidiKeyboardNotFoundException(Long id) {
         super("MidiKeyboard with id " + id + " not found.");

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Сервис для обращения в репозиторий владельцев.
+ * Owner service.
  */
 @Component
 public class OwnerService {
@@ -34,10 +34,10 @@ public class OwnerService {
     }
 
     /**
-     * Создание нового владельца в базе данных.
-     * @param ownerData - данные нового владельца.
-     * @return созданный владелец.
-     * @throws MidiKeyboardNotFoundException отправляется на клиент в случае отсутствия данных миди-клавитуры.
+     * Create owner.
+     * @param ownerData - new owner.
+     * @return created owner.
+     * @throws MidiKeyboardNotFoundException if that owner hasn't midi keyboard.
      */
     public OwnerDto createOwner(OwnerDto ownerData) throws MidiKeyboardNotFoundException {
         Owner ownerToCreate = new Owner(ownerData);
@@ -60,10 +60,10 @@ public class OwnerService {
     }
 
     /**
-     * Поиск владельца по id.
-     * @param ownerId - запрошенный id.
-     * @return данные владельца в типе OwnerDto с запрошенным id.
-     * @throws OwnerNotFoundException отправляется в контроллер в случае отсутствия владельца по данному id.
+     * Search owner by id.
+     * @param ownerId .
+     * @return found owner.
+     * @throws OwnerNotFoundException if owner with specific id not found.
      */
     public OwnerDto getOwnerById(Long ownerId) throws OwnerNotFoundException {
         Owner owner = findOwnerById(ownerId);
@@ -79,8 +79,8 @@ public class OwnerService {
     }
 
     /**
-     * Поиск всех владельцев в базе данных.
-     * @return список найденных владельцев.
+     * Search all owners.
+     * @return all owners.
      */
     public List<OwnerDto> getAllOwnerRecords() {
         Iterable<Owner> allRecords = ownerRepository.findAll();
@@ -100,12 +100,12 @@ public class OwnerService {
     }
 
     /**
-     * Замена записи в базе данных о владельце с запрошенным id.
-     * @param bodyOwner - данные нового владельца.
-     * @param ownerId -id заменяемого владельца.
-     * @return данные из базы данных нового владельца.
-     * @throws OwnerNotFoundException отправляется в контроллер в случае отсутствия владельца с данным id.
-     * @throws MidiKeyboardNotFoundException отправляется в контроллер в случае отсутствия данных миди-клавиатуры.
+     * Replace owner with specific id.
+     * @param bodyOwner - new owner.
+     * @param ownerId - old owner id.
+     * @return new owner.
+     * @throws OwnerNotFoundException if owner with specific id not found.
+     * @throws MidiKeyboardNotFoundException if that owner hasn't midi keyboard.
      */
     public OwnerDto updateOwner(OwnerDto bodyOwner, Long ownerId) throws OwnerNotFoundException,
             MidiKeyboardNotFoundException {
@@ -128,10 +128,10 @@ public class OwnerService {
     }
 
     /**
-     * Поиск в базе данных владельца по id.
-     * @param ownerId - id владельца.
-     * @return entity найденного владельца.
-     * @throws OwnerNotFoundException отправляется в контроллер в случае отсутствия владельца с данным id.
+     * Search owner with specific id.
+     * @param ownerId - id.
+     * @return found owner.
+     * @throws OwnerNotFoundException if owner with specific id not found.
      */
     private Owner findOwnerById(Long ownerId) throws OwnerNotFoundException {
         Optional<Owner> ownerById = ownerRepository.findById(ownerId);
@@ -142,9 +142,9 @@ public class OwnerService {
     }
 
     /**
-     * Поиск в базе данных владельцев по имени.
-     * @param ownerName - имя владельца.
-     * @return список найденных владельцев.
+     * Search owner by name.
+     * @param ownerName .
+     * @return found owners.
      */
     public List<OwnerDto> findByOwnerName(String ownerName) {
         List<OwnerDto> foundByOwner = new ArrayList<>();
@@ -164,8 +164,8 @@ public class OwnerService {
     }
 
     /**
-     * Удаление владельца из базы данных.
-     * @param ownerId - id удаляемого владельца.
+     * Delete owner with specific id.
+     * @param ownerId .
      */
     public void deleteOwner(Long ownerId) {
         ownerRepository.deleteById(ownerId);

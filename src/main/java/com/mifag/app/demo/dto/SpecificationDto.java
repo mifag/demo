@@ -25,13 +25,16 @@ public class SpecificationDto {
     @NotNull
     private TypeOfKeyEnum typeOfKey;
 
+    /**
+     * Empty constructor.
+     */
     public SpecificationDto() {
 
     }
 
     /**
-     *  Установка параметров из Specification в SpecificationDto.
-     * @param specification .
+     * Constructor.
+     * @param specification - entity.
      */
     public SpecificationDto(Specification specification) {
         this.id = specification.getId();

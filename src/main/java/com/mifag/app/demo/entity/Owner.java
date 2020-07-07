@@ -16,7 +16,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 /**
- * Entity владельца.
+ * Owner entity.
  */
 @Entity
 @Table(name = "owner")
@@ -44,15 +44,15 @@ public class Owner {
     private List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps;
 
     /**
-     * Пустой конструктор
+     * Empty constructor.
      */
     public Owner() {
 
     }
 
     /**
-     * Конструктор. Установка параметров из OwnerDto в Owner
-     * @param ownerDto
+     * Constructor.
+     * @param ownerDto .
      */
     public Owner(OwnerDto ownerDto) {
         this.id = ownerDto.getId();

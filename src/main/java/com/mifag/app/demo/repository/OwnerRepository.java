@@ -8,13 +8,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
- * Репозиторий владельцев.
+ * Owner repository.
  */
 public interface OwnerRepository extends CrudRepository<Owner, Long> {
     /**
-     * Поиск в базе данных владельцев по имени.
+     * Search by name.
      * @param ownerName .
-     * @return найденные владельцы.
+     * @return found owners.
      */
     @Query("SELECT ow FROM Owner ow WHERE ow.name = :name")
     List<Owner> getByOwnerName(@Param("name") String ownerName);

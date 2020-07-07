@@ -44,14 +44,14 @@ public class Specification {
     private MidiKeyboard midiKeyboard;
 
     /**
-     * Пустой конструктор.
+     * Empty constructor.
      */
     public Specification() {
 
     }
 
     /**
-     * Установка параметров из SpecificationDto в Specification.
+     * Constructor.
      * @param specificationDto .
      */
     public Specification (SpecificationDto specificationDto) {

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * Объект для отправки на клиент.
+ * Owner dto.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OwnerDto {
@@ -29,12 +29,15 @@ public class OwnerDto {
 
     private List<MidiKeyboardDto> midiKeyboardList;
 
+    /**
+     * Empty constructor.
+     */
     public OwnerDto() {
 
     }
 
     /**
-     * Установка параметров из Owner в OwnerDto.
+     * Constructor.
      * @param owner - entity.
      */
     public OwnerDto(Owner owner) {

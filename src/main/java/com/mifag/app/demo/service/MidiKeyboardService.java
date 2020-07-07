@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Сервис для обращения в репозиторий миди-клавиатур.
+ * Midi keyboard service .
  */
 @Component
 public class MidiKeyboardService {
@@ -31,9 +31,9 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Создание новой мидиклавиатуры в базе данных.
-     * @param midiData - параметры новой клавиатуры.
-     * @return  данные из базы данных о новой миди-клавиатуре.
+     * Create midi keyboard.
+     * @param midiData - MidiKeyboardDto.
+     * @return  new midi keyboard.
      */
     public MidiKeyboardDto createMidi(MidiKeyboardDto midiData) {
         try {
@@ -60,10 +60,10 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Поиск миди-клавиатуры по id.
-     * @param midiIdToFindBy id миди-клавиатуры.
-     * @return найденная мидиклавиатура в типе MidiKeyboardDto.
-     * @throws MidiKeyboardNotFoundException отправляется в контроллер в случае отсутствия объекта с данным id.
+     * Search midi keyboard by id.
+     * @param midiIdToFindBy id.
+     * @return found midi keyboard.
+     * @throws MidiKeyboardNotFoundException if midi keyboard with specific id not found.
      */
     public MidiKeyboardDto getMidiById(Long midiIdToFindBy) throws MidiKeyboardNotFoundException {
         Specification specification = getMidiKeyboardById(midiIdToFindBy).getSpecification();
@@ -75,8 +75,8 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Поиск всех миди-клавиатур в базе данных.
-     * @return список найденных клавиатур.
+     * Search all midi keyboards.
+     * @return All keyboards.
      */
     public List<MidiKeyboardDto> getAllMidiRecords() {
         Iterable<MidiKeyboard> allRecords = midiKeyboardRepository.findAll();
@@ -94,11 +94,11 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Замена записи о миди-клавиатуре с запрошенным id в базе данных.
-     * @param midiBoard - параметры новой миди-клавиатуры.
-     * @param midiBoardId id заменяемой миди-клавиатуры.
-     * @return данные новой миди-клавиатуры типа MidiKeyboardDto.
-     * @throws MidiKeyboardNotFoundException отправляется в контроллер в случае отсутствия объекта с данным id.
+     * Replace midi keyboard with specific id.
+     * @param midiBoard - new midi keyboard.
+     * @param midiBoardId id .
+     * @return new MidiKeyboardDto.
+     * @throws MidiKeyboardNotFoundException if midi keyboard with specific id not found.
      */
     public MidiKeyboardDto updateMidiKeyboard(MidiKeyboardDto midiBoard, Long midiBoardId)
             throws MidiKeyboardNotFoundException {
@@ -113,17 +113,17 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Удаление миди-клавиатуры из базы данных по заданному id.
-     * @param deleteId - id удаляемой клавиатуры.
+     * Delete midi keyboard with specific id.
+     * @param deleteId - id.
      */
     public void deleteMidi(Long deleteId) {
         midiKeyboardRepository.deleteById(deleteId);
     }
 
     /**
-     * Поиск в базе данных клавиатур по производителю.
+     * Search midi keyboards by manufacturer name.
      * @param manufacturerName .
-     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     * @return Found midi keyboards.
      */
     public List<MidiKeyboardDto> findByManufacturer(String manufacturerName) {
         List<MidiKeyboardDto> foundByManufacturer = new ArrayList<>();
@@ -140,11 +140,11 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Поиск в базе данных клавиатуры по количеству клавиш.
-     * @param minKeys - минимальное количество клавиш.
-     * @param maxKeys - максимальное количество клавиш.
-     * @param equalsKeys - заданное количество клавиш.
-     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     * Search midi keyboards by number of key.
+     * @param minKeys .
+     * @param maxKeys .
+     * @param equalsKeys .
+     * @return Found midi keyboards.
      */
     public List<MidiKeyboardDto> findByKeys(Long minKeys, Long maxKeys, Long equalsKeys) {
         Integer minKey;
@@ -198,10 +198,10 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Поиск в базе данных клавиатур по модели.
+     * Search midi keyboards by model.
      * @param model .
-     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
-     * @throws MidiKeyboardNotFoundException  отправляется в контроллер в случае отсутствия объекта данной модели.
+     * @return Found midi keyboards.
+     * @throws MidiKeyboardNotFoundException  if midi keyboard with specific model not found.
      */
     public MidiKeyboardDto findByModel(String model) throws MidiKeyboardNotFoundException {
         MidiKeyboard foundRecord = midiKeyboardRepository.getByModel(model);
@@ -217,9 +217,9 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Поиск в базе данных клавиатур по цене.
+     * Search midi keyboards by cost.
      * @param cost .
-     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     * @return Found midi keyboards.
      */
     public List<MidiKeyboardDto> findByPrice(Integer cost) {
         Long costKey;
@@ -244,9 +244,9 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Поиск в базе данных клавиатур по наличию миди-выхода.
-     * @param midiOut .
-     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     * Search midi keyboards by presence of midi out.
+     * @param midiOut - the presence of midi output.
+     * @return Found midi keyboards.
      */
     public List<MidiKeyboardDto> findByMidiOut(Boolean midiOut) {
         List<MidiKeyboard> midiKeyboardList = midiKeyboardRepository.getByMidiOut(midiOut);
@@ -263,9 +263,9 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Поиск в базе данных клавиатур по части имени производителя.
-     * @param part .
-     * @return найденные мидиклавиатуры в типе MidiKeyboardDto.
+     * Search midi keyborads by part of manufacturer name.
+     * @param part of manufacturer name.
+     * @return Found midi keyboards.
      */
     public List<MidiKeyboardDto> findByPartOfManufacturer(String part) {
         List<MidiKeyboard> midiKeyboardList = midiKeyboardRepository.getByPartOfManufacturer(part);
@@ -282,10 +282,10 @@ public class MidiKeyboardService {
     }
 
     /**
-     * Поиск в базе данных клавиатуры по id.
-     * @param keyId .
-     * @return найденная мидиклавиатура в базе данных.
-     * @throws MidiKeyboardNotFoundException отправляется в контроллер в случае отсутствия объекта с данным id.
+     * Search by id.
+     * @param keyId - id.
+     * @return found midi keyboard.
+     * @throws MidiKeyboardNotFoundException if midi keyboard with specific id not found.
      */
     public MidiKeyboard getMidiKeyboardById(Long keyId) throws MidiKeyboardNotFoundException {
         Optional<MidiKeyboard> midiKeyboard = midiKeyboardRepository.findById(keyId);

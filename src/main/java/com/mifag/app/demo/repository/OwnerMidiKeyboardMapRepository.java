@@ -4,7 +4,7 @@ import com.mifag.app.demo.entity.OwnerMidiKeyboardMap;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * Карта связей владельца и миди-клавиатуры.
+ * OwnerMidiKeyboardMap repository.
  */
 public interface OwnerMidiKeyboardMapRepository extends CrudRepository<OwnerMidiKeyboardMap, Long> {
 

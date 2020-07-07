@@ -7,75 +7,75 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
- * Репозиторий миди-клавиатур.
+ * Midi keyboard repository.
  */
 public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Long> {
     /**
-     * Поиск в базе данных миди-клавиатуры по производителю.
-     * @param manufacturerName - имя производителя.
-     * @return найденные миди-клавиатуры.
+     * Search by manufacturer.
+     * @param manufacturerName .
+     * @return found midi keyboards.
      */
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.manufacturer = :manufacturer")
     List<MidiKeyboard> getByManufacturerName(@Param("manufacturer") String manufacturerName);
 
     /**
-     * Поиск в базе данных миди-клавиатуры с заданными минимальными и максимальными значениями количества клавиш.
-     * @param min - минимальное количество клавиш.
-     * @param max - максимальное количество клавиш.
-     * @return найденные миди-клавиатуры.
+     * Search by number of keys.
+     * @param min number of keys.
+     * @param max number of keys.
+     * @return found midi keyboards.
      */
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.keysNumber > :min AND mk.keysNumber < :max")
     List<MidiKeyboard> getByMinKeysAndMaxKeys(@Param("min") Integer min,
                                               @Param("max") Integer max);
 
     /**
-     * Поиск в базе данных миди-клавиатуры с заданными минимальными или равными equals значениями количества клавиш
-     * @param min - минимальное количество клавиш.
-     * @param equals - заданное количество клавиш.
-     * @return найденные миди-клавиатуры.
+     * Search by number of keys.
+     * @param min number of keys.
+     * @param equals number of keys.
+     * @return found midi keyboards.
      */
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.keysNumber > :min OR mk.keysNumber = :equals")
     List<MidiKeyboard> getByMinKeysAndEqualsKeys(@Param("min") Integer min,
                                                  @Param("equals") Integer equals);
 
     /**
-     * Поиск в базе данных миди-клавиатуры с заданными максимальными или равными equals значениями количества клавиш
-     * @param max - максимальное количество клавиш.
-     * @param equals - заданное количество клавиш.
-     * @return найденные миди-клавиатуры.
+     * Search by number of keys.
+     * @param max number of keys.
+     * @param equals number of keys.
+     * @return found midi keyboards.
      */
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.keysNumber < :max OR mk.keysNumber = :equals")
     List<MidiKeyboard> getByMaxKeysAndEqualsKeys(@Param("max") Integer max,
                                                  @Param("equals") Integer equals);
 
     /**
-     * Поиск в базе данных миди-клавиатуры по модели.
+     * Search by model.
      * @param model .
-     * @return найденные миди-клавиатуры.
+     * @return found midi keyboard.
      */
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.model = :model")
     MidiKeyboard getByModel(@Param("model") String model);
 
     /**
-     * Поиск в базе данных миди-клавиатуры по цене.
+     * Search by keyboard cost.
      * @param costKey .
-     * @return найденные миди-клавиатуры.
+     * @return found midi keyboards.
      */
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.price = :costKey")
     List<MidiKeyboard> getByPrice(@Param("costKey") Long costKey);
 
     /**
-     * Поиск в базе данных миди-клавиатуры по наличию миди-выхода.
-     * @param out .
-     * @return найденные миди-клавиатуры.
+     * Search by presence of midi out.
+     * @param out - the presence of midi output.
+     * @return found midi keyboards.
      */
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.hasMidiOut = :midiOut")
     List<MidiKeyboard> getByMidiOut(@Param("midiOut") Boolean out);
 
     /**
-     * Поиск в базе данных миди-клавиатуры по части названия производителя.
-     * @param part .
-     * @return найденные миди-клавиатуры.
+     * Search by part of manufacturer name.
+     * @param part - part of manufacturer name.
+     * @return found midi keyboards.
      */
     @Query("SELECT mk FROM MidiKeyboard mk WHERE mk.manufacturer LIKE %:part% ")
     List<MidiKeyboard> getByPartOfManufacturer(@Param("part") String part);
