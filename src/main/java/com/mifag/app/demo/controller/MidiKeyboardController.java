@@ -56,7 +56,7 @@ public class MidiKeyboardController {
 
     /**
      * Search midi by id.
-     * @param midiId .
+     * @param midiId - id.
      * @return midi keyboard dto.
      * @throws MidiKeyboardNotFoundException if midi keyboard with specific id not found.
      */
