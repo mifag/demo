@@ -41,7 +41,7 @@ public class MidiKeyboardController {
     /**
      * Create midi keyboard.
      * @param midiKeyboardReceived midi keyboard dto.
-     * @return new keyboard dto.
+     * @return new dto.
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MidiKeyboardDto> createMidiKeyboard(
