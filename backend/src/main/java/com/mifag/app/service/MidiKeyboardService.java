@@ -39,7 +39,7 @@ public class MidiKeyboardService {
         try {
             return findByModel(midiData.getModel());
         } catch (MidiKeyboardNotFoundException e) {
-            Boolean isSpecsPresent = false;
+            boolean isSpecsPresent = false;
             if (midiData.getSpecification() != null) {
                 isSpecsPresent = true;
             }

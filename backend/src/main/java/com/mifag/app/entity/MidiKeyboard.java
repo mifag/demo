@@ -1,6 +1,7 @@
 package com.mifag.app.entity;
 
-import com.mifag.app.dto.MidiKeyboardDto;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.List;
+
+import com.mifag.app.dto.MidiKeyboardDto;
 
 /**
  * Midi Keyboard entity.

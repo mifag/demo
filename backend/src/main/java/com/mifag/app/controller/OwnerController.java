@@ -1,9 +1,9 @@
 package com.mifag.app.controller;
 
-import com.mifag.app.dto.OwnerDto;
-import com.mifag.app.exception.MidiKeyboardNotFoundException;
-import com.mifag.app.exception.OwnerNotFoundException;
-import com.mifag.app.service.OwnerService;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.List;
+import com.mifag.app.dto.OwnerDto;
+import com.mifag.app.exception.MidiKeyboardNotFoundException;
+import com.mifag.app.exception.OwnerNotFoundException;
+import com.mifag.app.service.OwnerService;
 
 /**
  * Owner controller.
@@ -41,6 +43,7 @@ public class OwnerController {
 
     /**
      * Create owner.
+     *
      * @param ownerReceived - new owner.
      * @return created owner.
      * @throws MidiKeyboardNotFoundException if that owner hasn't midi keyboard.
@@ -57,6 +60,7 @@ public class OwnerController {
 
     /**
      * Search owner by id.
+     *
      * @param idOwner .
      * @return found owner.
      * @throws OwnerNotFoundException if owner with specific id not found.
@@ -73,6 +77,7 @@ public class OwnerController {
 
     /**
      * Search all owners.
+     *
      * @return all owners.
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/allOwners")
@@ -85,10 +90,11 @@ public class OwnerController {
 
     /**
      * Replace owner with specific id.
-     * @param owner - new owner.
+     *
+     * @param owner   - new owner.
      * @param ownerId old owner id.
      * @return new owner dto.
-     * @throws OwnerNotFoundException if owner with specific id not found.
+     * @throws OwnerNotFoundException        if owner with specific id not found.
      * @throws MidiKeyboardNotFoundException if that owner hasn't midi keyboard.
      */
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{ownerId}")
@@ -105,11 +111,12 @@ public class OwnerController {
 
     /**
      * Search owner by name.
+     *
      * @param ownerName .
      * @return found owners.
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/findByOwner")
-    public  ResponseEntity<List<OwnerDto>> findByOwner(
+    public ResponseEntity<List<OwnerDto>> findByOwner(
             @RequestParam(value = "name") String ownerName) {
         LOG.info("OwnerController. FindByOwner. Search owner by name: {}.", ownerName);
         List<OwnerDto> foundOwners = ownerService.findByOwnerName(ownerName);
@@ -119,6 +126,7 @@ public class OwnerController {
 
     /**
      * Delete owner with specific id.
+     *
      * @param idOwner .
      * @return http status.
      */

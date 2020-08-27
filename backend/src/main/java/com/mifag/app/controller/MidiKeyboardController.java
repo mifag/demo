@@ -1,8 +1,9 @@
 package com.mifag.app.controller;
 
-import com.mifag.app.dto.MidiKeyboardDto;
-import com.mifag.app.exception.MidiKeyboardNotFoundException;
-import com.mifag.app.service.MidiKeyboardService;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +20,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.List;
+import com.mifag.app.dto.MidiKeyboardDto;
+import com.mifag.app.exception.MidiKeyboardNotFoundException;
+import com.mifag.app.service.MidiKeyboardService;
 
 /**
  * Midi keyboard rest controller.
  */
 @RestController
-@RequestMapping("/midiKeyboard")
+
+@RequestMapping("/api/midiKeyboard")
 public class MidiKeyboardController {
 
     private static final Logger LOG = LoggerFactory.getLogger(OwnerController.class);
 
     private final MidiKeyboardService midiService;
 
+    /**
+     * Constructor.
+     * @param midiService - midi-keyboard service.
+     */
     @Autowired
     public MidiKeyboardController(MidiKeyboardService midiService) {
         this.midiService = midiService;
@@ -40,6 +47,7 @@ public class MidiKeyboardController {
 
     /**
      * Create midi keyboard.
+     *
      * @param midiKeyboardReceived midi keyboard dto.
      * @return new dto.
      */
@@ -56,6 +64,7 @@ public class MidiKeyboardController {
 
     /**
      * Search midi by id.
+     *
      * @param midiId - id.
      * @return midi keyboard dto.
      * @throws MidiKeyboardNotFoundException if midi keyboard with specific id not found.
@@ -64,7 +73,7 @@ public class MidiKeyboardController {
     public ResponseEntity<MidiKeyboardDto> getMidiKeyboardById(@RequestParam(value = "id") Long midiId)
             throws MidiKeyboardNotFoundException {
         LOG.info("MidiKeyboardController. GetMidiKeyboardById. Finding midi keyboard with Id: {}.", midiId);
-                MidiKeyboardDto receivedMidiKeyboard = midiService.getMidiById(midiId);
+        MidiKeyboardDto receivedMidiKeyboard = midiService.getMidiById(midiId);
         LOG.info("Midi keyboard with id: {} successfully found. Model: {}.", midiId,
                 receivedMidiKeyboard.getModel());
         return ResponseEntity.ok(receivedMidiKeyboard);
@@ -72,9 +81,10 @@ public class MidiKeyboardController {
 
     /**
      * Search all midi keyboards.
+     *
      * @return all midi keyboards.
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/getAllRecords")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/allRecords")
     public ResponseEntity<List<MidiKeyboardDto>> getAllMidiKeyboardRecords() {
         LOG.info("MidiKeyboardController. getAllMidiKeyboardRecords. Getting data of all midi keyboards.");
         List<MidiKeyboardDto> midiKeyboardRecords = midiService.getAllMidiRecords();
@@ -84,7 +94,8 @@ public class MidiKeyboardController {
 
     /**
      * Replace midi keyboard with specific id in database.
-     * @param midiBody - dto of new midi keyboard.
+     *
+     * @param midiBody     - dto of new midi keyboard.
      * @param updateMidiId - replaceable midi keyboard's id.
      * @return new midi keyboard.
      * @throws MidiKeyboardNotFoundException if midi keyboard with specific id not found.
@@ -103,6 +114,7 @@ public class MidiKeyboardController {
 
     /**
      * Delete midi keyboard with specific id.
+     *
      * @param midiIdDelete - id.
      * @return http status.
      */
@@ -116,11 +128,12 @@ public class MidiKeyboardController {
 
     /**
      * Search midi keyboards by manufacturer name.
+     *
      * @param manufacturerName .
      * @return found midi keyboards.
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/findByManufacturer")
-    public  ResponseEntity<List<MidiKeyboardDto>> findByKeyboardManufacturer(
+    public ResponseEntity<List<MidiKeyboardDto>> findByKeyboardManufacturer(
             @RequestParam(value = "name") String manufacturerName) {
         LOG.info("MidiKeyboardController. FindByKeyboardManufacturer. Finding midi keyboard by " +
                 "manufacturer: {}.", manufacturerName);
@@ -131,8 +144,9 @@ public class MidiKeyboardController {
 
     /**
      * Search midi keyboards by number of key.
-     * @param minKeys .
-     * @param maxKeys .
+     *
+     * @param minKeys    .
+     * @param maxKeys    .
      * @param equalsKeys .
      * @return found midi keyboards.
      */
@@ -142,13 +156,14 @@ public class MidiKeyboardController {
             @RequestParam(value = "maxKeys", required = false) Long maxKeys,
             @RequestParam(value = "equalsKeys", required = false) Long equalsKeys) {
         LOG.info("MidiKeyboardController. FilterByKeyNumber.");
-                List<MidiKeyboardDto> foundByKeys = midiService.findByKeys(minKeys, maxKeys, equalsKeys);
+        List<MidiKeyboardDto> foundByKeys = midiService.findByKeys(minKeys, maxKeys, equalsKeys);
         LOG.info("Midi keyboards successfully found.");
         return ResponseEntity.ok(foundByKeys);
     }
 
     /**
      * Search midi keyboards by model.
+     *
      * @param model .
      * @return found midi keyboard.
      * @throws MidiKeyboardNotFoundException if midi keyboard with specific model not found.
@@ -164,6 +179,7 @@ public class MidiKeyboardController {
 
     /**
      * Search midi keyboards by cost.
+     *
      * @param cost .
      * @return found midi keyboards.
      */
@@ -178,6 +194,7 @@ public class MidiKeyboardController {
 
     /**
      * Search midi keyboards by presence of midi out.
+     *
      * @param midiOut - the presence of midi output.
      * @return found midi keyboards.
      */
@@ -192,6 +209,7 @@ public class MidiKeyboardController {
 
     /**
      * Search midi keyborads by part of manufacturer name.
+     *
      * @param partOfManufacturer .
      * @return found midi keyboards.
      */
