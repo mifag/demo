@@ -25,8 +25,10 @@ import com.mifag.app.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.service.MidiKeyboardService;
 
 /**
- * Midi keyboard rest controller.
+ * @author <a href='mailto:mifag92@rambler.ru'>mifag</a>
+ * @version 03.09.2020
  */
+
 @RestController
 
 @RequestMapping("/api/midiKeyboard")
