@@ -69,8 +69,8 @@ public class MidiKeyboardController {
      * @return midi keyboard dto.
      * @throws MidiKeyboardNotFoundException if midi keyboard with specific id not found.
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/getById")
-    public ResponseEntity<MidiKeyboardDto> getMidiKeyboardById(@RequestParam(value = "id") Long midiId)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{midiId}")
+    public ResponseEntity<MidiKeyboardDto> getMidiKeyboardById(@PathVariable(value = "midiId") Long midiId)
             throws MidiKeyboardNotFoundException {
         LOG.info("MidiKeyboardController. GetMidiKeyboardById. Finding midi keyboard with Id: {}.", midiId);
         MidiKeyboardDto receivedMidiKeyboard = midiService.getMidiById(midiId);

@@ -25,7 +25,7 @@ public class MidiKeyboardDto {
     @NotNull
     private Long price;
 
-    private SpecificationDto specification;
+    private Long specificationId;
 
     /**
      * Empty constructor.
@@ -45,6 +45,7 @@ public class MidiKeyboardDto {
         this.keysNumber = midiKeyboard.getKeysNumber();
         this.hasMidiOut = midiKeyboard.getHasMidiOut();
         this.price = midiKeyboard.getPrice();
+        this.specificationId = midiKeyboard.getSpecificationId();
     }
 
     public Long getId() {
@@ -95,11 +96,11 @@ public class MidiKeyboardDto {
         this.price = price;
     }
 
-    public SpecificationDto getSpecification() {
-        return specification;
+    public Long getSpecificationId() {
+        return specificationId;
     }
 
-    public void setSpecification(SpecificationDto specification) {
-        this.specification = specification;
+    public void setSpecificationId(Long specificationId) {
+        this.specificationId = specificationId;
     }
 }

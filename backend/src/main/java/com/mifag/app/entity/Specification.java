@@ -40,9 +40,6 @@ public class Specification {
     @Column(name = "type_of_key")
     private TypeOfKeyEnum typeOfKey;
 
-    @OneToOne(mappedBy = "specification", cascade = CascadeType.ALL)
-    private MidiKeyboard midiKeyboard;
-
     /**
      * Empty constructor.
      */
@@ -54,7 +51,7 @@ public class Specification {
      * Constructor.
      * @param specificationDto .
      */
-    public Specification (SpecificationDto specificationDto) {
+    public Specification(SpecificationDto specificationDto) {
         this.id = specificationDto.getId();
         this.weight = specificationDto.getWeight();
         this.length = specificationDto.getLength();
@@ -109,13 +106,5 @@ public class Specification {
 
     public void setTypeOfKey(TypeOfKeyEnum typeOfKey) {
         this.typeOfKey = typeOfKey;
-    }
-
-    public MidiKeyboard getMidiKeyboard() {
-        return midiKeyboard;
-    }
-
-    public void setMidiKeyboard(MidiKeyboard midiKeyboard) {
-        this.midiKeyboard = midiKeyboard;
     }
 }
