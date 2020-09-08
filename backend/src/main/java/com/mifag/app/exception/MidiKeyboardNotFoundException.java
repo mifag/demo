@@ -10,6 +10,7 @@ public class MidiKeyboardNotFoundException extends Exception {
 
     /**
      * Exception, if midi keyboard with specific model not found.
+     *
      * @param model .
      */
     public MidiKeyboardNotFoundException(String model) {
@@ -18,6 +19,7 @@ public class MidiKeyboardNotFoundException extends Exception {
 
     /**
      * Exception, if midi keyboard with specific id not found.
+     *
      * @param id .
      */
     public MidiKeyboardNotFoundException(Long id) {

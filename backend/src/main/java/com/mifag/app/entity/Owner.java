@@ -1,8 +1,7 @@
 package com.mifag.app.entity;
 
-import com.mifag.app.dto.OwnerDto;
-import com.mifag.app.enums.SexEnum;
-import com.mifag.app.enums.SkillLevelEnum;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,7 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
+
+import com.mifag.app.dto.OwnerDto;
+import com.mifag.app.enums.SexEnum;
+import com.mifag.app.enums.SkillLevelEnum;
 
 /**
  * Owner entity.
@@ -52,6 +54,7 @@ public class Owner {
 
     /**
      * Constructor.
+     *
      * @param ownerDto .
      */
     public Owner(OwnerDto ownerDto) {

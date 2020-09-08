@@ -1,10 +1,12 @@
 package com.mifag.app.repository;
 
-import com.mifag.app.entity.MidiKeyboard;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import java.util.List;
+
+import com.mifag.app.entity.MidiKeyboard;
 
 /**
  * Midi keyboard repository.
@@ -12,6 +14,7 @@ import java.util.List;
 public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Long> {
     /**
      * Search by manufacturer.
+     *
      * @param manufacturerName .
      * @return found midi keyboards.
      */
@@ -20,6 +23,7 @@ public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Lon
 
     /**
      * Search by number of keys.
+     *
      * @param min number of keys.
      * @param max number of keys.
      * @return found midi keyboards.
@@ -30,7 +34,8 @@ public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Lon
 
     /**
      * Search by number of keys.
-     * @param min number of keys.
+     *
+     * @param min    number of keys.
      * @param equals number of keys.
      * @return found midi keyboards.
      */
@@ -40,7 +45,8 @@ public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Lon
 
     /**
      * Search by number of keys.
-     * @param max number of keys.
+     *
+     * @param max    number of keys.
      * @param equals number of keys.
      * @return found midi keyboards.
      */
@@ -50,6 +56,7 @@ public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Lon
 
     /**
      * Search by model.
+     *
      * @param model .
      * @return found midi keyboard.
      */
@@ -58,6 +65,7 @@ public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Lon
 
     /**
      * Search by keyboard cost.
+     *
      * @param costKey .
      * @return found midi keyboards.
      */
@@ -66,6 +74,7 @@ public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Lon
 
     /**
      * Search by presence of midi out.
+     *
      * @param out - the presence of midi output.
      * @return found midi keyboards.
      */
@@ -74,6 +83,7 @@ public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Lon
 
     /**
      * Search by part of manufacturer name.
+     *
      * @param part - part of manufacturer name.
      * @return found midi keyboards.
      */

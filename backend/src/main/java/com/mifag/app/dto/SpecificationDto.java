@@ -1,8 +1,9 @@
 package com.mifag.app.dto;
 
+import javax.validation.constraints.NotNull;
+
 import com.mifag.app.entity.Specification;
 import com.mifag.app.enums.TypeOfKeyEnum;
-import javax.validation.constraints.NotNull;
 
 /**
  * Объект для отправки на клиент.
@@ -34,6 +35,7 @@ public class SpecificationDto {
 
     /**
      * Constructor.
+     *
      * @param specification - entity.
      */
     public SpecificationDto(Specification specification) {

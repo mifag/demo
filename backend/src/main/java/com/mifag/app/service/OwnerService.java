@@ -1,5 +1,12 @@
 package com.mifag.app.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.mifag.app.dto.MidiKeyboardDto;
 import com.mifag.app.dto.OwnerDto;
 import com.mifag.app.entity.MidiKeyboard;
@@ -9,11 +16,6 @@ import com.mifag.app.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.exception.OwnerNotFoundException;
 import com.mifag.app.repository.OwnerMidiKeyboardMapRepository;
 import com.mifag.app.repository.OwnerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Owner service.
@@ -35,6 +37,7 @@ public class OwnerService {
 
     /**
      * Create owner.
+     *
      * @param ownerData - new owner.
      * @return created owner.
      * @throws MidiKeyboardNotFoundException if that owner hasn't midi keyboard.
@@ -61,6 +64,7 @@ public class OwnerService {
 
     /**
      * Search owner by id.
+     *
      * @param ownerId .
      * @return found owner.
      * @throws OwnerNotFoundException if owner with specific id not found.
@@ -80,6 +84,7 @@ public class OwnerService {
 
     /**
      * Search all owners.
+     *
      * @return all owners.
      */
     public List<OwnerDto> getAllOwnerRecords() {
@@ -87,7 +92,7 @@ public class OwnerService {
         List<OwnerDto> ownerRecords = new ArrayList<>();
         for (Owner record : allRecords) {
             List<MidiKeyboardDto> midiKeyboardDtos = new ArrayList<>();
-            for (OwnerMidiKeyboardMap ownerMidiKeyboardMap : record.getOwnerMidiKeyboardMaps()){
+            for (OwnerMidiKeyboardMap ownerMidiKeyboardMap : record.getOwnerMidiKeyboardMaps()) {
                 MidiKeyboard midiKeyboard = ownerMidiKeyboardMap.getMidiKeyboard();
                 MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(midiKeyboard);
                 midiKeyboardDtos.add(midiKeyboardDto);
@@ -101,10 +106,11 @@ public class OwnerService {
 
     /**
      * Replace owner with specific id.
+     *
      * @param bodyOwner - new owner.
-     * @param ownerId - old owner id.
+     * @param ownerId   - old owner id.
      * @return new owner.
-     * @throws OwnerNotFoundException if owner with specific id not found.
+     * @throws OwnerNotFoundException        if owner with specific id not found.
      * @throws MidiKeyboardNotFoundException if that owner hasn't midi keyboard.
      */
     public OwnerDto updateOwner(OwnerDto bodyOwner, Long ownerId) throws OwnerNotFoundException,
@@ -129,6 +135,7 @@ public class OwnerService {
 
     /**
      * Search owner with specific id.
+     *
      * @param ownerId - id.
      * @return found owner.
      * @throws OwnerNotFoundException if owner with specific id not found.
@@ -143,6 +150,7 @@ public class OwnerService {
 
     /**
      * Search owner by name.
+     *
      * @param ownerName .
      * @return found owners.
      */
@@ -150,7 +158,7 @@ public class OwnerService {
         List<OwnerDto> foundByOwner = new ArrayList<>();
         List<Owner> ownerList = ownerRepository.getByOwnerName(ownerName);
         for (Owner foundRecord : ownerList) {
-            List<MidiKeyboardDto> midiKeyboardDtoList= new ArrayList<>();
+            List<MidiKeyboardDto> midiKeyboardDtoList = new ArrayList<>();
             for (OwnerMidiKeyboardMap keyboardMap : foundRecord.getOwnerMidiKeyboardMaps()) {
                 MidiKeyboard midiKeyboard = keyboardMap.getMidiKeyboard();
                 MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(midiKeyboard);
@@ -165,6 +173,7 @@ public class OwnerService {
 
     /**
      * Delete owner with specific id.
+     *
      * @param ownerId .
      */
     public void deleteOwner(Long ownerId) {

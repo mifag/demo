@@ -1,11 +1,12 @@
 package com.mifag.app.repository;
 
-import com.mifag.app.entity.Owner;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
+import com.mifag.app.entity.Owner;
 
 /**
  * Owner repository.
@@ -13,6 +14,7 @@ import java.util.List;
 public interface OwnerRepository extends CrudRepository<Owner, Long> {
     /**
      * Search by name.
+     *
      * @param ownerName .
      * @return found owners.
      */

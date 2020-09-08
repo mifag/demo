@@ -1,5 +1,6 @@
 package com.mifag.app.controller;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -40,6 +41,7 @@ public class MidiKeyboardController {
 
     /**
      * Constructor.
+     *
      * @param midiService - midi-keyboard service.
      */
     @Autowired
@@ -91,6 +93,8 @@ public class MidiKeyboardController {
         LOG.info("MidiKeyboardController. getAllMidiKeyboardRecords. Getting data of all midi keyboards.");
         List<MidiKeyboardDto> midiKeyboardRecords = midiService.getAllMidiRecords();
         LOG.info("All midi keyboards successfully found.");
+        //midiKeyboardRecords.sort(Comparator.comparing(MidiKeyboardDto::getId));
+        midiKeyboardRecords.sort(Comparator.comparing(MidiKeyboardDto::getId));
         return ResponseEntity.ok(midiKeyboardRecords);
     }
 

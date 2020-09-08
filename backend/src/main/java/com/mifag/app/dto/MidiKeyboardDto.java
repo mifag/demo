@@ -1,7 +1,8 @@
 package com.mifag.app.dto;
 
-import com.mifag.app.entity.MidiKeyboard;
 import javax.validation.constraints.NotNull;
+
+import com.mifag.app.entity.MidiKeyboard;
 
 /**
  * Midi keyboard dto.
@@ -36,6 +37,7 @@ public class MidiKeyboardDto {
 
     /**
      * Constructor.
+     *
      * @param midiKeyboard - entity.
      */
     public MidiKeyboardDto(MidiKeyboard midiKeyboard) {

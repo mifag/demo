@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mifag.app.dto.SpecificationDto;
-import com.mifag.app.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.exception.SpecificationNotFoundException;
 import com.mifag.app.service.SpecificationService;
 
@@ -31,6 +30,7 @@ public class SpecificationController {
 
     /**
      * Constructor.
+     *
      * @param specificationService - specification service.
      */
     @Autowired
@@ -40,9 +40,10 @@ public class SpecificationController {
 
     /**
      * Get Specification by id.
+     *
      * @param specId - specification id.
-     * @throws SpecificationNotFoundException if specification not found.
      * @return specification dto.
+     * @throws SpecificationNotFoundException if specification not found.
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{specId}")
     public ResponseEntity<SpecificationDto> getSpecificationById(@PathVariable(value = "specId") Long specId)

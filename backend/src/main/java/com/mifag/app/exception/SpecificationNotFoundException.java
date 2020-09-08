@@ -10,6 +10,7 @@ public class SpecificationNotFoundException extends Exception {
 
     /**
      * Exception, if specification with specific id not found.
+     *
      * @param specId - specification id.
      */
     public SpecificationNotFoundException(Long specId) {

@@ -1,11 +1,13 @@
 package com.mifag.app.dto;
 
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mifag.app.entity.Owner;
 import com.mifag.app.enums.SexEnum;
 import com.mifag.app.enums.SkillLevelEnum;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * Owner dto.
@@ -38,6 +40,7 @@ public class OwnerDto {
 
     /**
      * Constructor.
+     *
      * @param owner - entity.
      */
     public OwnerDto(Owner owner) {

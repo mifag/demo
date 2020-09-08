@@ -3,7 +3,7 @@ package com.mifag.app.enums;
 /**
  * Owner gender enum.
  */
-public enum  SexEnum {
+public enum SexEnum {
     MALE,
     FEMALE,
     SISSY

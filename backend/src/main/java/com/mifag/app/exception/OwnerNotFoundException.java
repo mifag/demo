@@ -10,6 +10,7 @@ public class OwnerNotFoundException extends Exception {
 
     /**
      * Exception, if owner with specific id not found.
+     *
      * @param ownerId .
      */
     public OwnerNotFoundException(Long ownerId) {
