@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import com.mifag.app.dto.MidiKeyboardDto;
@@ -29,6 +30,12 @@ public class MidiKeyboardService {
     @Autowired
     public MidiKeyboardService(MidiKeyboardRepository midiKeyboardRepository) {
         this.midiKeyboardRepository = midiKeyboardRepository;
+    }
+
+    //ToDo
+    public List<MidiKeyboardDto> search(MidiKeyboardDto midiKeyboardDto) {
+        List<MidiKeyboardDto> midiKeyboardDtoList = new ArrayList<>();
+        return midiKeyboardDtoList;
     }
 
     /**

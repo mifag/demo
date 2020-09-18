@@ -227,4 +227,16 @@ public class MidiKeyboardController {
         LOG.info("Midi keyboards successfully found.");
         return ResponseEntity.ok(foundByPartOfManufacturer);
     }
+
+    /**
+     * Search midi-keyboard.
+     *
+     * @param midiKeyboardSearch - dto for search.
+     * @return found midi-keyboards.
+     */
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/search")
+    public ResponseEntity<List<MidiKeyboardDto>> searchMidiKeyboard(@RequestBody MidiKeyboardDto midiKeyboardSearch) {
+        List<MidiKeyboardDto> foundKeyboards = midiService.search(midiKeyboardSearch);
+        return ResponseEntity.ok(foundKeyboards);
+    }
 }
