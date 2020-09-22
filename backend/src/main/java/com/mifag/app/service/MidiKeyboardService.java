@@ -1,16 +1,21 @@
 package com.mifag.app.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import static org.springframework.data.jpa.domain.Specification.where;
+
 import com.mifag.app.dto.MidiKeyboardDto;
 import com.mifag.app.entity.MidiKeyboard;
+import com.mifag.app.entity.specification.MidiKeyboardSpecification;
 import com.mifag.app.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.repository.MidiKeyboardRepository;
 
@@ -32,9 +37,44 @@ public class MidiKeyboardService {
         this.midiKeyboardRepository = midiKeyboardRepository;
     }
 
-    //ToDo
+
+    /**
+     * search by parameters.
+     *
+     * @param midiKeyboardDto - dto with parameters.
+     * @return list of midi-keyboard.
+     */
     public List<MidiKeyboardDto> search(MidiKeyboardDto midiKeyboardDto) {
+        Specification<MidiKeyboard> specification = MidiKeyboardSpecification.findAll();
+        if (Objects.nonNull(midiKeyboardDto.getId())) {
+            specification = where(specification).and(MidiKeyboardSpecification.findById(midiKeyboardDto.getId()));
+        }
+        if (StringUtils.isNoneEmpty(midiKeyboardDto.getManufacturer())) {
+            specification = where(specification).and(MidiKeyboardSpecification.findByManufacturer(
+                    midiKeyboardDto.getManufacturer()));
+        }
+        if (StringUtils.isNoneEmpty(midiKeyboardDto.getModel())) {
+            specification = where(specification).and(MidiKeyboardSpecification.findByModel(
+                    midiKeyboardDto.getModel()));
+        }
+        if (Objects.nonNull(midiKeyboardDto.getKeysNumber())) {
+            specification = where(specification).and(MidiKeyboardSpecification.findByKeys(
+                    midiKeyboardDto.getKeysNumber()));
+        }
+        if (Objects.nonNull(midiKeyboardDto.getHasMidiOut())) {
+            specification = where(specification).and(MidiKeyboardSpecification.findByMidiOut(
+                    midiKeyboardDto.getHasMidiOut()));
+        }
+        if (Objects.nonNull(midiKeyboardDto.getPrice())) {
+            specification = where(specification).and(MidiKeyboardSpecification.findByPrice(
+                    midiKeyboardDto.getPrice()));
+        }
+        List<MidiKeyboard> midiKeyboardList = midiKeyboardRepository.findAll(specification);
         List<MidiKeyboardDto> midiKeyboardDtoList = new ArrayList<>();
+        for (MidiKeyboard midiKeyboard : midiKeyboardList) {
+            midiKeyboardDtoList.add(new MidiKeyboardDto(midiKeyboard));
+        }
+        midiKeyboardDtoList.sort(Comparator.comparing(MidiKeyboardDto::getId));
         return midiKeyboardDtoList;
     }
 

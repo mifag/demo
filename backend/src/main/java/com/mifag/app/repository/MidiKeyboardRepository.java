@@ -2,6 +2,7 @@ package com.mifag.app.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +12,8 @@ import com.mifag.app.entity.MidiKeyboard;
 /**
  * Midi keyboard repository.
  */
-public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Long> {
+public interface MidiKeyboardRepository extends CrudRepository<MidiKeyboard, Long>,
+        JpaSpecificationExecutor<MidiKeyboard> {
     /**
      * Search by manufacturer.
      *
