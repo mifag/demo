@@ -14,7 +14,9 @@ import org.springframework.stereotype.Component;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 import com.mifag.app.dto.MidiKeyboardDto;
+import com.mifag.app.dto.OwnerDto;
 import com.mifag.app.entity.MidiKeyboard;
+import com.mifag.app.entity.OwnerMidiKeyboardMap;
 import com.mifag.app.entity.specification.MidiKeyboardSpecification;
 import com.mifag.app.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.repository.MidiKeyboardRepository;
@@ -36,7 +38,6 @@ public class MidiKeyboardService {
     public MidiKeyboardService(MidiKeyboardRepository midiKeyboardRepository) {
         this.midiKeyboardRepository = midiKeyboardRepository;
     }
-
 
     /**
      * search by parameters.
@@ -97,12 +98,23 @@ public class MidiKeyboardService {
     /**
      * Search midi keyboard by id.
      *
-     * @param midiIdToFindBy id.
+     * @param midiId id.
      * @return found midi keyboard.
      * @throws MidiKeyboardNotFoundException if midi keyboard with specific id not found.
      */
-    public MidiKeyboardDto getMidiById(Long midiIdToFindBy) throws MidiKeyboardNotFoundException {
-        return new MidiKeyboardDto(getMidiKeyboardById(midiIdToFindBy));
+    public MidiKeyboardDto getMidiById(Long midiId) throws MidiKeyboardNotFoundException {
+        Optional<MidiKeyboard> optionalMidiKeyboard = midiKeyboardRepository.findById(midiId);
+        if (optionalMidiKeyboard.isEmpty()) {
+            throw new MidiKeyboardNotFoundException(midiId);
+        }
+        MidiKeyboard midiKeyboard = optionalMidiKeyboard.get();
+        MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(midiKeyboard);
+        List<OwnerDto> ownerDtoList = new ArrayList<>();
+        for (OwnerMidiKeyboardMap ownerMidiKeyboardMap : midiKeyboard.getOwnerMidiKeyboardMaps()) {
+            ownerDtoList.add(new OwnerDto(ownerMidiKeyboardMap.getOwner()));
+        }
+        midiKeyboardDto.setOwners(ownerDtoList);
+        return midiKeyboardDto;
     }
 
     /**

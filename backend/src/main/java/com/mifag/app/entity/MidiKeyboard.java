@@ -42,7 +42,7 @@ public class MidiKeyboard {
     @Column(name = "specification_id")
     private Long specificationId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "midiKeyboard")
     private List<OwnerMidiKeyboardMap> ownerMidiKeyboardMaps;
 
     /**

@@ -1,5 +1,7 @@
 package com.mifag.app.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import com.mifag.app.entity.MidiKeyboard;
@@ -27,6 +29,8 @@ public class MidiKeyboardDto {
     private Long price;
 
     private Long specificationId;
+
+    private List<OwnerDto> owners;
 
     /**
      * Empty constructor.
@@ -104,5 +108,13 @@ public class MidiKeyboardDto {
 
     public void setSpecificationId(Long specificationId) {
         this.specificationId = specificationId;
+    }
+
+    public List<OwnerDto> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<OwnerDto> owners) {
+        this.owners = owners;
     }
 }
