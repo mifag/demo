@@ -70,13 +70,16 @@ public class OwnerService {
      * @throws OwnerNotFoundException if owner with specific id not found.
      */
     public OwnerDto getOwnerById(Long ownerId) throws OwnerNotFoundException {
-        Owner owner = findOwnerById(ownerId);
+        Optional<Owner> optionalOwner = ownerRepository.findById(ownerId);
+        if (optionalOwner.isEmpty()) {
+            throw new OwnerNotFoundException(ownerId);
+        }
+        Owner owner = optionalOwner.get();
         OwnerDto ownerDto = new OwnerDto(owner);
         List<MidiKeyboardDto> midiKeyboardDtoList = new ArrayList<>();
         for (OwnerMidiKeyboardMap ownerMidiKeyboardMap : owner.getOwnerMidiKeyboardMaps()) {
             MidiKeyboard midiKeyboard = ownerMidiKeyboardMap.getMidiKeyboard();
-            MidiKeyboardDto midiKeyboardDto = new MidiKeyboardDto(midiKeyboard);
-            midiKeyboardDtoList.add(midiKeyboardDto);
+            midiKeyboardDtoList.add(new MidiKeyboardDto(midiKeyboard));
         }
         ownerDto.setMidiKeyboardList(midiKeyboardDtoList);
         return ownerDto;

@@ -1,5 +1,6 @@
 package com.mifag.app.controller;
 
+import java.util.Comparator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mifag.app.dto.MidiKeyboardDto;
 import com.mifag.app.dto.OwnerDto;
 import com.mifag.app.exception.MidiKeyboardNotFoundException;
 import com.mifag.app.exception.OwnerNotFoundException;
@@ -29,7 +31,7 @@ import com.mifag.app.service.OwnerService;
  * Owner controller.
  */
 @RestController
-@RequestMapping("/owner")
+@RequestMapping("/api/owner")
 public class OwnerController {
 
     private static final Logger LOG = LoggerFactory.getLogger(OwnerController.class);
@@ -65,8 +67,8 @@ public class OwnerController {
      * @return found owner.
      * @throws OwnerNotFoundException if owner with specific id not found.
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/ownerById")
-    public ResponseEntity<OwnerDto> getOwnerById(@RequestParam(value = "id") Long idOwner)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/{id}")
+    public ResponseEntity<OwnerDto> getOwnerById(@PathVariable(value = "id") Long idOwner)
             throws OwnerNotFoundException {
         LOG.info("OwnerController. GetOwnerById. Finding owner with id {}.", idOwner);
         OwnerDto receivedOwner = ownerService.getOwnerById(idOwner);
@@ -80,11 +82,12 @@ public class OwnerController {
      *
      * @return all owners.
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/allOwners")
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<OwnerDto>> getOwnerRecords() {
         LOG.info("OwnerController. GetOwnerRecords.");
         List<OwnerDto> ownerRecords = ownerService.getAllOwnerRecords();
         LOG.info("All owners successfully found.");
+        ownerRecords.sort(Comparator.comparing(OwnerDto::getId));
         return ResponseEntity.ok(ownerRecords);
     }
 
