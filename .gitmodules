@@ -1,3 +1,0 @@
-[submodule "frontend/src/main/demo-frontend-app"]
-	path = frontend/src/main/demo-frontend-app
-	url = https://github.com/mifag/demo-frontend-app
